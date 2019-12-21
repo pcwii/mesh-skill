@@ -1,0 +1,427 @@
+Date: Sat, 21 Dec 2019 14:38:29 -0500
+Message-ID: <0001e394$29802120$fc2e322e$EverNote>
+MIME-Version: 1.0
+Content-Type: text/html; 
+	charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: Evernote® v6.21.2.8716
+
+<html>
+<head>
+  <title>Evernote Export</title>
+  <basefont face=3D"Segoe UI" size=3D"2" />
+  <meta http-equiv=3D"Content-Type" =
+content=3D"text/html;charset=3Dutf-8" />
+  <meta name=3D"exporter-version" content=3D"Evernote Windows/308716 =
+(en-US, MWS); Windows/10.0.0 (Win64);"/>
+  <style>
+    body, td {
+      font-family: Segoe UI;
+      font-size: 10pt;
+    }
+  </style>
+</head>
+<body>
+<a name=3D"1787"/>
+
+<div>=0A<span><div><div><b>Installation</b></div><div><br/></div><div =
+style=3D"margin: 0px 0px 1em; padding: 0px; border: 0px; =
+font-variant-ligatures: normal; font-variant-caps: normal; font-size: =
+18px; font-family: &quot;Roboto Slab&quot;, Arial, sans-serif; color: =
+black; letter-spacing: normal; orphans: 2; text-align: start; =
+text-indent: 0px; text-transform: none; white-space: normal; widows: 2; =
+word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: =
+rgb(255, 255, 255);"><span style=3D"border: 0px; font-variant-ligatures: =
+normal; font-variant-caps: normal; font-size: 18px; font-family: =
+&quot;Roboto Slab&quot;, Arial, sans-serif; color: black; =
+letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: =
+none; white-space: normal; widows: 2; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; background-color: rgb(255, 255, =
+255);">1)Open Raspberry Pi Terminal</span></div><div style=3D"margin: =
+0px 0px 1em; padding: 0px; border: 0px; font-variant-ligatures: normal; =
+font-variant-caps: normal; font-size: 18px; font-family: &quot;Roboto =
+Slab&quot;, Arial, sans-serif; color: black; letter-spacing: normal; =
+orphans: 2; text-align: start; text-indent: 0px; text-transform: none; =
+white-space: normal; widows: 2; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; background-color: rgb(255, 255, =
+255);"><span style=3D"border: 0px; font-variant-ligatures: normal; =
+font-variant-caps: normal; font-size: 18px; font-family: &quot;Roboto =
+Slab&quot;, Arial, sans-serif; color: black; letter-spacing: normal; =
+orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; =
+widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
+background-color: rgb(255, 255, 255);">2)Execute the following command =
+to update the existing Packages</span></div><div style=3D"margin: 0px =
+0px 15px; padding: 10px; border: 0.5px solid black; =
+font-variant-ligatures: normal; font-variant-caps: normal; font-weight: =
+bold; font-size: 18px; font-family: &quot;Roboto Slab&quot;, Arial, =
+sans-serif; background-color: rgb(232, 232, 232); color: black; =
+border-radius: 10px; overflow-wrap: break-word; letter-spacing: normal; =
+orphans: 2; text-align: start; text-indent: 0px; text-transform: none; =
+white-space: normal; widows: 2; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px;"><span style=3D"border: 0.5px solid =
+black; font-variant-ligatures: normal; font-variant-caps: normal; =
+font-weight: bold; font-size: 18px; font-family: &quot;Roboto =
+Slab&quot;, Arial, sans-serif; background-color: rgb(232, 232, 232); =
+color: black; border-radius: 10px; overflow-wrap: break-word; =
+letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: =
+none; white-space: normal; widows: 2; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px;">sudo apt-get update</span></div><div =
+style=3D"margin: 0px 0px 1em; padding: 0px; border: 0px; =
+font-variant-ligatures: normal; font-variant-caps: normal; font-size: =
+18px; font-family: &quot;Roboto Slab&quot;, Arial, sans-serif; color: =
+black; letter-spacing: normal; orphans: 2; text-align: start; =
+text-indent: 0px; text-transform: none; white-space: normal; widows: 2; =
+word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: =
+rgb(255, 255, 255);"><span style=3D"border: 0px; font-variant-ligatures: =
+normal; font-variant-caps: normal; font-size: 18px; font-family: =
+&quot;Roboto Slab&quot;, Arial, sans-serif; color: black; =
+letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: =
+none; white-space: normal; widows: 2; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; background-color: rgb(255, 255, =
+255);">3)Execute the following command to install mosquitto =
+broker</span></div><div style=3D"margin: 0px 0px 15px; padding: 10px; =
+border: 0.5px solid black; font-variant-ligatures: normal; =
+font-variant-caps: normal; font-weight: bold; font-size: 18px; =
+font-family: &quot;Roboto Slab&quot;, Arial, sans-serif; =
+background-color: rgb(232, 232, 232); color: black; border-radius: 10px; =
+overflow-wrap: break-word; letter-spacing: normal; orphans: 2; =
+text-align: start; text-indent: 0px; text-transform: none; white-space: =
+normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: =
+0px;"><span style=3D"border: 0.5px solid black; font-variant-ligatures: =
+normal; font-variant-caps: normal; font-weight: bold; font-size: 18px; =
+font-family: &quot;Roboto Slab&quot;, Arial, sans-serif; =
+background-color: rgb(232, 232, 232); color: black; border-radius: 10px; =
+overflow-wrap: break-word; letter-spacing: normal; orphans: 2; =
+text-indent: 0px; text-transform: none; white-space: normal; widows: 2; =
+word-spacing: 0px; -webkit-text-stroke-width: 0px;">sudo apt-get install =
+mosquitto</span></div><div style=3D"margin: 0px 0px 1em; padding: 0px; =
+border: 0px; font-variant-ligatures: normal; font-variant-caps: normal; =
+font-size: 18px; font-family: &quot;Roboto Slab&quot;, Arial, =
+sans-serif; color: black; letter-spacing: normal; orphans: 2; =
+text-align: start; text-indent: 0px; text-transform: none; white-space: =
+normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
+background-color: rgb(255, 255, 255);"><span style=3D"border: 0px; =
+font-variant-ligatures: normal; font-variant-caps: normal; font-size: =
+18px; font-family: &quot;Roboto Slab&quot;, Arial, sans-serif; color: =
+black; letter-spacing: normal; orphans: 2; text-indent: 0px; =
+text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; background-color: rgb(255, 255, =
+255);">4)Execute the following command to install MQTT Clients such as =
+publishers and subscribers</span></div><div style=3D"margin: 0px 0px =
+15px; padding: 10px; border: 0.5px solid black; font-variant-ligatures: =
+normal; font-variant-caps: normal; font-weight: bold; font-size: 18px; =
+font-family: &quot;Roboto Slab&quot;, Arial, sans-serif; =
+background-color: rgb(232, 232, 232); color: black; border-radius: 10px; =
+overflow-wrap: break-word; letter-spacing: normal; orphans: 2; =
+text-align: start; text-indent: 0px; text-transform: none; white-space: =
+normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: =
+0px;"><span style=3D"border: 0.5px solid black; font-variant-ligatures: =
+normal; font-variant-caps: normal; font-weight: bold; font-size: 18px; =
+font-family: &quot;Roboto Slab&quot;, Arial, sans-serif; =
+background-color: rgb(232, 232, 232); color: black; border-radius: 10px; =
+overflow-wrap: break-word; letter-spacing: normal; orphans: 2; =
+text-indent: 0px; text-transform: none; white-space: normal; widows: 2; =
+word-spacing: 0px; -webkit-text-stroke-width: 0px;">sudo apt-get install =
+mosquitto-clients</span></div><div style=3D"margin: 0px 0px 1em; =
+padding: 0px; border: 0px; font-variant-ligatures: normal; =
+font-variant-caps: normal; font-size: 18px; font-family: &quot;Roboto =
+Slab&quot;, Arial, sans-serif; color: black; letter-spacing: normal; =
+orphans: 2; text-align: start; text-indent: 0px; text-transform: none; =
+white-space: normal; widows: 2; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; background-color: rgb(255, 255, =
+255);"><span style=3D"border: 0px; font-variant-ligatures: normal; =
+font-variant-caps: normal; font-size: 18px; font-family: &quot;Roboto =
+Slab&quot;, Arial, sans-serif; color: black; letter-spacing: normal; =
+orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; =
+widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
+background-color: rgb(255, 255, 255);">5)Execute the following command =
+to check</span><span style=3D"border: 0px; font-variant-ligatures: =
+normal; font-variant-caps: normal; font-size: 18px; font-family: =
+&quot;Roboto Slab&quot;, Arial, sans-serif; color: black; =
+letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: =
+none; white-space: normal; widows: 2; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; background-color: rgb(255, 255, =
+255);">=C2=A0</span><span style=3D"border: 0px; font-variant-ligatures: =
+normal; font-variant-caps: normal; font-size: 18px; font-family: =
+&quot;Roboto Slab&quot;, Arial, sans-serif; color: black; =
+letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: =
+none; white-space: normal; widows: 2; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); =
+font-weight: bold;">Mosquitto version</span><span style=3D"border: 0px; =
+font-variant-ligatures: normal; font-variant-caps: normal; font-size: =
+18px; font-family: &quot;Roboto Slab&quot;, Arial, sans-serif; color: =
+black; letter-spacing: normal; orphans: 2; text-indent: 0px; =
+text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; background-color: rgb(255, 255, =
+255);">.</span></div><div style=3D"margin: 0px 0px 1em; padding: 0px; =
+border: 0px; font-variant-ligatures: normal; font-variant-caps: normal; =
+font-size: 18px; font-family: &quot;Roboto Slab&quot;, Arial, =
+sans-serif; color: black; letter-spacing: normal; orphans: 2; =
+text-align: start; text-indent: 0px; text-transform: none; white-space: =
+normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
+background-color: rgb(255, 255, 255);"><span style=3D"border: 0px; =
+font-variant-ligatures: normal; font-variant-caps: normal; font-size: =
+18px; font-family: &quot;Roboto Slab&quot;, Arial, sans-serif; color: =
+black; letter-spacing: normal; orphans: 2; text-indent: 0px; =
+text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; background-color: rgb(255, 255, =
+255);">If its showing</span><span style=3D"border: 0px; =
+font-variant-ligatures: normal; font-variant-caps: normal; font-size: =
+18px; font-family: &quot;Roboto Slab&quot;, Arial, sans-serif; color: =
+black; letter-spacing: normal; orphans: 2; text-indent: 0px; =
+text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; background-color: rgb(255, 255, =
+255);">=C2=A0</span><span style=3D"border: 0px; font-variant-ligatures: =
+normal; font-variant-caps: normal; font-size: 18px; font-family: =
+&quot;Roboto Slab&quot;, Arial, sans-serif; color: black; =
+letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: =
+none; white-space: normal; widows: 2; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); =
+font-weight: bold;">mosquitto version 1.4.10</span><span =
+style=3D"border: 0px; font-variant-ligatures: normal; font-variant-caps: =
+normal; font-size: 18px; font-family: &quot;Roboto Slab&quot;, Arial, =
+sans-serif; color: black; letter-spacing: normal; orphans: 2; =
+text-indent: 0px; text-transform: none; white-space: normal; widows: 2; =
+word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: =
+rgb(255, 255, 255);">=C2=A0</span><span style=3D"border: 0px; =
+font-variant-ligatures: normal; font-variant-caps: normal; font-size: =
+18px; font-family: &quot;Roboto Slab&quot;, Arial, sans-serif; color: =
+black; letter-spacing: normal; orphans: 2; text-indent: 0px; =
+text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; background-color: rgb(255, 255, =
+255);">or higher , means broker is installed =
+sucessfully.</span></div><div><b>Configuration</b></div><div><b><br/></b>=
+</div><div style=3D"margin: 0px 0px 1em; padding: 0px; border: 0px; =
+font-variant-ligatures: normal; font-variant-caps: normal; font-size: =
+18px; font-family: &quot;Roboto Slab&quot;, Arial, sans-serif; color: =
+black; letter-spacing: normal; orphans: 2; text-align: start; =
+text-indent: 0px; text-transform: none; white-space: normal; widows: 2; =
+word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: =
+rgb(255, 255, 255);"><span style=3D"border: 0px; font-variant-ligatures: =
+normal; font-variant-caps: normal; font-size: 18px; font-family: =
+&quot;Roboto Slab&quot;, Arial, sans-serif; color: black; =
+letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: =
+none; white-space: normal; widows: 2; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px;">1)Execute the following command to =
+navigate in the mosquitto folder which is shown below.</span></div><div =
+style=3D"margin: 0px 0px 15px; padding: 10px; border: 0.5px solid black; =
+font-variant-ligatures: normal; font-variant-caps: normal; font-weight: =
+bold; font-size: 18px; font-family: &quot;Roboto Slab&quot;, Arial, =
+sans-serif; background-color: rgb(232, 232, 232); color: black; =
+border-radius: 10px; overflow-wrap: break-word; letter-spacing: normal; =
+orphans: 2; text-align: start; text-indent: 0px; text-transform: none; =
+white-space: normal; widows: 2; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px;"><span style=3D"border: 0.5px solid =
+black; font-variant-ligatures: normal; font-variant-caps: normal; =
+font-weight: bold; font-size: 18px; font-family: &quot;Roboto =
+Slab&quot;, Arial, sans-serif; background-color: rgb(232, 232, 232); =
+color: black; border-radius: 10px; overflow-wrap: break-word; =
+letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: =
+none; white-space: normal; widows: 2; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px;">cd /etc/mosquitto</span></div><div =
+style=3D"margin: 0px 0px 1em; padding: 0px; border: 0px; =
+font-variant-ligatures: normal; font-variant-caps: normal; font-size: =
+18px; font-family: &quot;Roboto Slab&quot;, Arial, sans-serif; color: =
+black; letter-spacing: normal; orphans: 2; text-align: start; =
+text-indent: 0px; text-transform: none; white-space: normal; widows: 2; =
+word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: =
+rgb(255, 255, 255);"><span style=3D"border: 0px; font-variant-ligatures: =
+normal; font-variant-caps: normal; font-size: 18px; font-family: =
+&quot;Roboto Slab&quot;, Arial, sans-serif; color: black; =
+letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: =
+none; white-space: normal; widows: 2; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px;">2)Execute the following command to edit =
+mosquitto.conf file which is shown below.</span></div><div =
+style=3D"margin: 0px 0px 15px; padding: 10px; border: 0.5px solid black; =
+font-variant-ligatures: normal; font-variant-caps: normal; font-weight: =
+bold; font-size: 18px; font-family: &quot;Roboto Slab&quot;, Arial, =
+sans-serif; background-color: rgb(232, 232, 232); color: black; =
+border-radius: 10px; overflow-wrap: break-word; letter-spacing: normal; =
+orphans: 2; text-align: start; text-indent: 0px; text-transform: none; =
+white-space: normal; widows: 2; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px;"><span style=3D"border: 0.5px solid =
+black; font-variant-ligatures: normal; font-variant-caps: normal; =
+font-weight: bold; font-size: 18px; font-family: &quot;Roboto =
+Slab&quot;, Arial, sans-serif; background-color: rgb(232, 232, 232); =
+color: black; border-radius: 10px; overflow-wrap: break-word; =
+letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: =
+none; white-space: normal; widows: 2; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px;">sudo nano =
+mosquitto.conf</span></div><div><span style=3D"color: rgb(0, 0, 0); =
+font-family: &quot;Roboto Slab&quot;, Arial, sans-serif; font-size: =
+18px; font-variant-ligatures: normal; font-variant-caps: normal; =
+letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: =
+none; white-space: normal; widows: 2; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px;">3)Now add following 3 lines in =
+mosquitto.conf file which is shown below.</span></div><p =
+style=3D"margin: 0px 0px 1em; padding: 0px; border: 0px; =
+font-variant-ligatures: normal; font-variant-caps: normal; font-size: =
+18px; font-family: &quot;Roboto Slab&quot;, Arial, sans-serif; color: =
+black; letter-spacing: normal; orphans: 2; text-align: start; =
+text-indent: 0px; text-transform: none; white-space: normal; widows: 2; =
+word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: =
+rgb(255, 255, 255);"></p><div><span style=3D"font-weight: bold; border: =
+0px;">port 1883</span></div><div><span style=3D"font-weight: bold; =
+border: 0px;">listener 9001</span></div><div><span style=3D"font-weight: =
+bold;">protocol websockets</span></div><div style=3D"margin: 0px 0px =
+1em; padding: 0px; border: 0px; font-variant-ligatures: normal; =
+font-variant-caps: normal; font-size: 18px; font-family: &quot;Roboto =
+Slab&quot;, Arial, sans-serif; color: black; letter-spacing: normal; =
+orphans: 2; text-align: start; text-indent: 0px; text-transform: none; =
+white-space: normal; widows: 2; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; background-color: rgb(255, 255, =
+255);"><span style=3D"border: 0px; font-variant-ligatures: normal; =
+font-variant-caps: normal; font-size: 18px; font-family: &quot;Roboto =
+Slab&quot;, Arial, sans-serif; color: black; letter-spacing: normal; =
+orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; =
+widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">4)Once =
+you above 3 lines please press Ctrl + X and type y and hit enter to save =
+the changes.</span></div><div><span style=3D"border: 0px; =
+font-variant-ligatures: normal; font-variant-caps: normal; font-size: =
+18px; font-family: &quot;Roboto Slab&quot;, Arial, sans-serif; color: =
+black; letter-spacing: normal; orphans: 2; text-indent: 0px; =
+text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px;">5)</span><span style=3D"border: 0px; =
+font-variant-ligatures: normal; font-variant-caps: normal; font-size: =
+18px; font-family: &quot;Roboto Slab&quot;, Arial, sans-serif; color: =
+black; letter-spacing: normal; orphans: 2; text-indent: 0px; =
+text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px;">Execute the following command to =
+navigate to the alternate mosquitto configuration =
+folder.</span></div><div style=3D"margin: 0px 0px 15px; padding: 10px; =
+border: 0.5px solid black; font-variant-ligatures: normal; =
+font-variant-caps: normal; font-weight: bold; font-size: 18px; =
+font-family: &quot;Roboto Slab&quot;, Arial, sans-serif; =
+background-color: rgb(232, 232, 232); color: black; border-radius: 10px; =
+overflow-wrap: break-word; letter-spacing: normal; orphans: 2; =
+text-align: start; text-indent: 0px; text-transform: none; white-space: =
+normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: =
+0px;"><span style=3D"border: 0.5px solid black; font-variant-ligatures: =
+normal; font-variant-caps: normal; font-weight: bold; font-size: 18px; =
+font-family: &quot;Roboto Slab&quot;, Arial, sans-serif; =
+background-color: rgb(232, 232, 232); color: black; border-radius: 10px; =
+overflow-wrap: break-word; letter-spacing: normal; orphans: 2; =
+text-indent: 0px; text-transform: none; white-space: normal; widows: 2; =
+word-spacing: 0px; -webkit-text-stroke-width: 0px;">cd =
+/etc/mosquitto/conf.d</span></div><div style=3D"margin: 0px 0px 1em; =
+padding: 0px; border: 0px; font-variant-ligatures: normal; =
+font-variant-caps: normal; font-size: 18px; font-family: &quot;Roboto =
+Slab&quot;, Arial, sans-serif; color: black; letter-spacing: normal; =
+orphans: 2; text-align: start; text-indent: 0px; text-transform: none; =
+white-space: normal; widows: 2; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; background-color: rgb(255, 255, =
+255);"><span style=3D"border: 0px; font-variant-ligatures: normal; =
+font-variant-caps: normal; font-size: 18px; font-family: &quot;Roboto =
+Slab&quot;, Arial, sans-serif; color: black; letter-spacing: normal; =
+orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; =
+widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">6)Remove =
+all files &quot;alternate&quot; configuration files in this =
+directory.</span></div><div style=3D"margin: 0px 0px 15px; padding: =
+10px; border: 0.5px solid black; font-variant-ligatures: normal; =
+font-variant-caps: normal; font-weight: bold; font-size: 18px; =
+font-family: &quot;Roboto Slab&quot;, Arial, sans-serif; =
+background-color: rgb(232, 232, 232); color: black; border-radius: 10px; =
+overflow-wrap: break-word; letter-spacing: normal; orphans: 2; =
+text-align: start; text-indent: 0px; text-transform: none; white-space: =
+normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: =
+0px;"><span style=3D"border: 0.5px solid black; font-variant-ligatures: =
+normal; font-variant-caps: normal; font-weight: bold; font-size: 18px; =
+font-family: &quot;Roboto Slab&quot;, Arial, sans-serif; =
+background-color: rgb(232, 232, 232); color: black; border-radius: 10px; =
+overflow-wrap: break-word; letter-spacing: normal; orphans: 2; =
+text-indent: 0px; text-transform: none; white-space: normal; widows: 2; =
+word-spacing: 0px; -webkit-text-stroke-width: 0px;">sudo rm =
+*.conf</span></div><div style=3D"margin: 0px 0px 1em; padding: 0px; =
+border: 0px; font-variant-ligatures: normal; font-variant-caps: normal; =
+font-size: 18px; font-family: &quot;Roboto Slab&quot;, Arial, =
+sans-serif; color: black; letter-spacing: normal; orphans: 2; =
+text-align: start; text-indent: 0px; text-transform: none; white-space: =
+normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
+background-color: rgb(255, 255, 255);"><span style=3D"border: 0px; =
+font-variant-ligatures: normal; font-variant-caps: normal; font-size: =
+18px; font-family: &quot;Roboto Slab&quot;, Arial, sans-serif; color: =
+black; letter-spacing: normal; orphans: 2; text-indent: 0px; =
+text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px;">7)Now you need to restart the mosquitto =
+or MQTT broker. Execute the following command to restart mosquitto or =
+MQTT broker which is shown below.</span></div><div style=3D"margin: 0px =
+0px 15px; padding: 10px; border: 0.5px solid black; =
+font-variant-ligatures: normal; font-variant-caps: normal; font-weight: =
+bold; font-size: 18px; font-family: &quot;Roboto Slab&quot;, Arial, =
+sans-serif; background-color: rgb(232, 232, 232); color: black; =
+border-radius: 10px; overflow-wrap: break-word; letter-spacing: normal; =
+orphans: 2; text-align: start; text-indent: 0px; text-transform: none; =
+white-space: normal; widows: 2; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px;"><span style=3D"border: 0.5px solid =
+black; font-variant-ligatures: normal; font-variant-caps: normal; =
+font-weight: bold; font-size: 18px; font-family: &quot;Roboto =
+Slab&quot;, Arial, sans-serif; background-color: rgb(232, 232, 232); =
+color: black; border-radius: 10px; overflow-wrap: break-word; =
+letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: =
+none; white-space: normal; widows: 2; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px;">sudo service mosquitto =
+stop</span></div><div style=3D"margin: 0px 0px 15px; padding: 10px; =
+border: 0.5px solid black; font-variant-ligatures: normal; =
+font-variant-caps: normal; font-weight: bold; font-size: 18px; =
+font-family: &quot;Roboto Slab&quot;, Arial, sans-serif; =
+background-color: rgb(232, 232, 232); color: black; border-radius: 10px; =
+overflow-wrap: break-word; letter-spacing: normal; orphans: 2; =
+text-align: start; text-indent: 0px; text-transform: none; white-space: =
+normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: =
+0px;"><span style=3D"border: 0.5px solid black; font-variant-ligatures: =
+normal; font-variant-caps: normal; font-weight: bold; font-size: 18px; =
+font-family: &quot;Roboto Slab&quot;, Arial, sans-serif; =
+background-color: rgb(232, 232, 232); color: black; border-radius: 10px; =
+overflow-wrap: break-word; letter-spacing: normal; orphans: 2; =
+text-indent: 0px; text-transform: none; white-space: normal; widows: 2; =
+word-spacing: 0px; -webkit-text-stroke-width: 0px;">sudo service =
+mosquitto start</span></div><div><span style=3D"border: 0px; =
+font-variant-ligatures: normal; font-variant-caps: normal; font-size: =
+18px; font-family: &quot;Roboto Slab&quot;, Arial, sans-serif; color: =
+black; letter-spacing: normal; orphans: 2; text-indent: 0px; =
+text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px;">8)Confirm the service =
+started.</span></div><div style=3D"margin: 0px 0px 15px; padding: 10px; =
+border: 0.5px solid black; font-variant-ligatures: normal; =
+font-variant-caps: normal; font-weight: bold; font-size: 18px; =
+font-family: &quot;Roboto Slab&quot;, Arial, sans-serif; =
+background-color: rgb(232, 232, 232); color: black; border-radius: 10px; =
+overflow-wrap: break-word; letter-spacing: normal; orphans: 2; =
+text-align: start; text-indent: 0px; text-transform: none; white-space: =
+normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: =
+0px;"><span style=3D"border: 0.5px solid black; font-variant-ligatures: =
+normal; font-variant-caps: normal; font-weight: bold; font-size: 18px; =
+font-family: &quot;Roboto Slab&quot;, Arial, sans-serif; =
+background-color: rgb(232, 232, 232); color: black; border-radius: 10px; =
+overflow-wrap: break-word; letter-spacing: normal; orphans: 2; =
+text-indent: 0px; text-transform: none; white-space: normal; widows: 2; =
+word-spacing: 0px; -webkit-text-stroke-width: 0px;">sudo service =
+mosquitto status</span></div><div><span style=3D"border: 0px; =
+font-variant-ligatures: normal; font-variant-caps: normal; font-size: =
+18px; font-family: &quot;Roboto Slab&quot;, Arial, sans-serif; color: =
+black; letter-spacing: normal; orphans: 2; text-indent: 0px; =
+text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px;">8)Restart the RPi and again confirm the =
+service started.</span></div><div style=3D"margin: 0px 0px 15px; =
+padding: 10px; border: 0.5px solid black; font-variant-ligatures: =
+normal; font-variant-caps: normal; font-weight: bold; font-size: 18px; =
+font-family: &quot;Roboto Slab&quot;, Arial, sans-serif; =
+background-color: rgb(232, 232, 232); color: black; border-radius: 10px; =
+overflow-wrap: break-word; letter-spacing: normal; orphans: 2; =
+text-align: start; text-indent: 0px; text-transform: none; white-space: =
+normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: =
+0px;"><span style=3D"border: 0.5px solid black; font-variant-ligatures: =
+normal; font-variant-caps: normal; font-weight: bold; font-size: 18px; =
+font-family: &quot;Roboto Slab&quot;, Arial, sans-serif; =
+background-color: rgb(232, 232, 232); color: black; border-radius: 10px; =
+overflow-wrap: break-word; letter-spacing: normal; orphans: 2; =
+text-indent: 0px; text-transform: none; white-space: normal; widows: 2; =
+word-spacing: 0px; -webkit-text-stroke-width: 0px;">sudo service =
+mosquitto status</span></div><div><br/></div><div><span style=3D"border: =
+0px; font-variant-ligatures: normal; font-variant-caps: normal; =
+font-size: 18px; font-family: &quot;Roboto Slab&quot;, Arial, =
+sans-serif; color: black; letter-spacing: normal; orphans: 2; =
+text-indent: 0px; text-transform: none; white-space: normal; widows: 2; =
+word-spacing: 0px; -webkit-text-stroke-width: =
+0px;"><br/></span></div></div></span>=0A</div></body></html>
+ 
