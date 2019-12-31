@@ -19,7 +19,7 @@
                         "name": "broker_address",
                         "type": "text",
                         "label": "IP Address of the MQTT Broker",
-                        "value": "192.168.0.43"
+                        "value": "127.0.0.1"
                     },
                     {
                         "name": "broker_port",
