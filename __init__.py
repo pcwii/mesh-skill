@@ -5,6 +5,9 @@ from mycroft.util.log import getLogger
 from mycroft.util.log import LOG
 from mycroft.audio import wait_while_speaking
 
+import sys
+from websocket import create_connection
+
 from time import sleep
 import uuid
 import string
@@ -30,8 +33,8 @@ class MeshSkill(MycroftSkill):
     # The constructor of the skill, which calls Mycroft Skill's constructor
     def __init__(self):
         super(MeshSkill, self).__init__(name="MeshSkill")
-        self.deviceUUID = ''
-        self.targetDevice = ''
+        self.deviceUUID = ''  # This is the unique ID based on the Mac of this unit
+        self.targetDevice = ''  # This is the targed device_id obtained through mycroft dialog
         # Initialize settings values
         self.client = mqtt.Client(self.id_generator())
         self._is_setup = False
@@ -53,12 +56,12 @@ class MeshSkill(MycroftSkill):
         self.MQTT_Enabled = self.settings.get("MQTT_Enabled", False)  # used to enable / disable mqtt
         self.broker_address = self.settings.get("broker_address", "192.168.0.43")
         self.broker_port = self.settings.get("broker_port", 1883)
-        self.location_id = self.settings.get("location_id", "basement")
+        self.location_id = self.settings.get("location_id", "basement")  # This is the device_id of this device
         self._is_setup = True
         LOG.info("Websettings Changed! " + self.broker_address + ", " + str(self.broker_port))
         self.mqtt_init()
 
-    def mqtt_init(self):  #initializes the MQTT configuration
+    def mqtt_init(self):  # initializes the MQTT configuration and subscribes to its own topic
         mqttPath = "Mycroft/RemoteDevices/" + self.location_id
         self.client.on_message = self.on_message
         self.client.connect(self.broker_address, self.broker_port, 60)
@@ -73,12 +76,12 @@ class MeshSkill(MycroftSkill):
         LOG.info(msg.topic + " " + str(msg.qos) + ", " + mqtt_message)
         if "command" in new_message:
             LOG.info('Command Received! - ' + new_message["command"])
+            self.send_message(new_message["command"])
         elif "message" in new_message:
             LOG.info('Message Received! - ' + new_message["message"])
             self.speak_dialog('location.dialog', data={"location": new_message["source"]}, expect_response=False)
             wait_while_speaking()
             self.speak_dialog('message.dialog', data={"message": new_message["message"]}, expect_response=False)
-
 
     def id_generator(self, size=6, chars=string.ascii_uppercase + string.digits):
         return ''.join(random.choice(chars) for _ in range(size))
@@ -123,6 +126,19 @@ class MeshSkill(MycroftSkill):
             publish.single(myTopic, myMessage, hostname=self.broker_address)
         else:
             LOG.info("MQTT has been disabled in the websettings at https://home.mycroft.ai")
+
+    def send_message(self, message):  # Sends the remote received commands to the messagebus
+        payload = json.dumps({
+            "type": "recognizer_loop:utterance",
+            "context": "",
+            "data": {
+                "utterances": [message]
+            }
+        })
+        uri = 'ws://localhost:8181/core'
+        ws = create_connection(uri)
+        ws.send(payload)
+        ws.close()
 
     # First step in the dialog is to receive the initial request to "send a message/command"
     @intent_handler(IntentBuilder("SendMessageIntent").require("SendKeyword").require("RemoteKeyword").

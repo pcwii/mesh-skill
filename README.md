@@ -72,4 +72,7 @@ mycroft publishes...
 - [Mycroft](https://docs.mycroft.ai/installing.and.running/installation).
 
 ## Todo
-- Testing (20191231)
+- Connect subscribed "commands" to message bus (20191231)
+- Investigate enabling remote mycroft to reply to messages (20191231)
+```[{"source":"basement"},{"message":"is dinner ready yet"},{"reply": True}]```
+- 
