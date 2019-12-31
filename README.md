@@ -1,14 +1,14 @@
 # <img src='https://raw.githack.com/FortAwesome/Font-Awesome/master/svgs/solid/network-wired.svg' card_color='#40DBB0' width='50' height='50' style='vertical-align:bottom'/> Mesh
 ## About mesh-skill
 A Mycroft.AI skill to provide a conduit for a collection of Mycroft units to communicate with each other.
-## Publishes the following MQTT messages
+### Publishes the following MQTT messages
 - ```Mycroft/deviceUUID/request```
 - ```Mycroft/deviceUUID/response```
 - The deviceUUID is created by the MAC of the device
-## Subscribes to the following MQTT message(s)
+### Subscribes to the following MQTT message(s)
 - ```Mycroft/RemoteDevices/location_id```
 - Location_ID is set in websettings
-## Responds to a command / message that is received from other units
+### Responds to a command / message that is received from other units
 - Example 1 (from basement to kitchen)
 ```
 hey mycroft...
