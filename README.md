@@ -7,17 +7,17 @@ A flock of Seagulls, a pride of Lions, a swarm of Bees, and a "mesh of Mycrofts"
 This skill utilizes the lightweight MQTT messaging protocol to connect a group ("mesh") of Mycroft units together. The skill has the ability to send messages (intercom) and commands (messagebus) to one or more remote Mycroft units.
 1. Each Mycroft unit has the ability to publish both Mycroft requests and responses to the the MQTT broker.
 The MQTT Topics for this communication is...
-- ```Mycroft/deviceUUID/request```
-- ```Mycroft/deviceUUID/response```
+    * ```Mycroft/deviceUUID/request```
+    * ```Mycroft/deviceUUID/response```
 2. The deviceUUID is a unique ID created from the MAC of the sending Mycroft unit.
 *This is intended to be a general MQTT broadcast and can be subscribed to by any MQTT client (ie. Home Assistant?).
 3. Each Mycroft unit has it's own Device Name (location_id) that can be set in the web interface.
 4. The Mycroft unit will automatically subscribe to all messages sent to it's own Device Name (location_id).
-- ```Mycroft/RemoteDevices/location_id```
+    * ```Mycroft/RemoteDevices/<location_id>```
 5. When a message is sent from any Mycroft unit, the message will be published to "Mycroft/RemoteDevices/location_id".
 6. The destination location_id is specified in the skill dialog.
 7. The message payload will contain the following...
--```[{"source":"<source_location_id>"},{"message":"is dinner ready yet"}]
+    * ```[{"source":"<source_location_id>"},{"message":"is dinner ready yet"}]```
 
 
 ## Examples
@@ -35,6 +35,7 @@ pcwii
 #remote
 #connect
 #control
+#MQTT
 
 
 ## Conversational Context
@@ -65,7 +66,8 @@ mycroft publishes...
 ## Installation Notes
 - ensure you have a working MQTT Broker. [how to install mqtt broker.](https://github.com/pcwii/mesh-skill/blob/master/broker_install.md)
 - SSH and run: msm install https://github.com/pcwii/mesh-skill.git
-- Configure home.mycroft.ai to set your broker ip address and port number
+- Configure home.mycroft.ai to set your broker ip address and port number 
+    * This skill must be installed, and configured for each unit in your "mesh".
 
 ## Requirements
 - [paho-mqtt](https://pypi.org/project/paho-mqtt/).
@@ -76,6 +78,6 @@ mycroft publishes...
 ## Todo
 - Connect subscribed "commands" to message bus (20191231)
 - Investigate enabling remote mycroft to reply to messages (20191231)
-```[{"source":"basement"},{"message":"is dinner ready yet"},{"reply": True}]```
+    * ```[{"source":"basement"},{"message":"is dinner ready yet"},{"reply": True}]```
 - Provide a customization for Topic Names to increase security.(20191231)
 - Autodiscovery???(20191231)
