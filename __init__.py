@@ -125,7 +125,7 @@ class MeshSkill(MycroftSkill):
             LOG.info("MQTT has been disabled in the websettings at https://home.mycroft.ai")
 
     # First step in the dialog is to receive the initial request to "send a message/command"
-    @intent_handler(IntentBuilder("SendMessageIntent").require("SendKeyword").
+    @intent_handler(IntentBuilder("SendMessageIntent").require("SendKeyword").require("RemoteKeyword").
                     one_of("MessageKeyword", "CommandKeyword").build())
     def handle_send_message_intent(self, message):
         self.set_context('GetLocationContextKeyword', 'GetLocationContext')
