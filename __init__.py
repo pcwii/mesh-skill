@@ -5,18 +5,17 @@ from mycroft.util.log import getLogger
 from mycroft.util.log import LOG
 from mycroft.audio import wait_while_speaking
 
-import sys
+# import sys
 from websocket import create_connection
 
-from time import sleep
+# from time import sleep
 import uuid
 import string
 import random
 import json
 import paho.mqtt.client as mqtt
 import paho.mqtt.publish as publish
-
-import re
+# import re
 
 __author__ = 'PCWii'
 
@@ -33,12 +32,16 @@ class MeshSkill(MycroftSkill):
     # The constructor of the skill, which calls Mycroft Skill's constructor
     def __init__(self):
         super(MeshSkill, self).__init__(name="MeshSkill")
-        self.deviceUUID = ''  # This is the unique ID based on the Mac of this unit
-        self.targetDevice = ''  # This is the targed device_id obtained through mycroft dialog
         # Initialize settings values
         self.client = mqtt.Client(self.id_generator())
         self._is_setup = False
         self.notifier_bool = True
+        self.deviceUUID = ''  # This is the unique ID based on the Mac of this unit
+        self.targetDevice = ''  # This is the targed device_id obtained through mycroft dialog
+        self.MQTT_Enabled = ''
+        self.broker_address = ''
+        self.broker_port = ''
+        self.location_id = ''
 
     # This method loads the files needed for the skill's functioning, and
     # creates and registers each intent that the skill uses
@@ -53,7 +56,7 @@ class MeshSkill(MycroftSkill):
         self.add_event('speak', self.handle_speak)  # should be "utterance"
 
     def on_websettings_changed(self):  # called when updating mycroft home page
-        self.MQTT_Enabled = self.settings.get("MQTT_Enabled", False)  # used to enable / disable mqtt
+        self.MQTT_Enabled = self.settings.get("MQTT_Enabled", True)  # used to enable / disable mqtt
         self.broker_address = self.settings.get("broker_address", "192.168.0.43")
         self.broker_port = self.settings.get("broker_port", 1883)
         self.location_id = self.settings.get("location_id", "basement")  # This is the device_id of this device
@@ -62,10 +65,10 @@ class MeshSkill(MycroftSkill):
         self.mqtt_init()
 
     def mqtt_init(self):  # initializes the MQTT configuration and subscribes to its own topic
-        mqttPath = "Mycroft/RemoteDevices/" + self.location_id
+        mqtt_path = "Mycroft/RemoteDevices/" + self.location_id
         self.client.on_message = self.on_message
         self.client.connect(self.broker_address, self.broker_port, 60)
-        self.client.subscribe(mqttPath, 0)
+        self.client.subscribe(mqtt_path, 0)
         self.client.loop_start()
 
     def on_message(self, client, obj, msg):  # called when a new MQTT message is received
@@ -94,36 +97,36 @@ class MeshSkill(MycroftSkill):
 
     # utterance event used for notifications ***This is what the user requests***
     def handle_utterances(self, message):
-        mqttPath = "Mycroft/" + self.deviceUUID + "/request"
-        LOG.info(mqttPath)
+        mqtt_path = "Mycroft/" + self.deviceUUID + "/request"
+        LOG.info(mqtt_path)
         voice_payload = str(message.data.get('utterances')[0])
         if self.notifier_bool:
             try:
                 LOG.info(voice_payload)
-                self.send_MQTT(mqttPath, voice_payload)
+                self.send_MQTT(mqtt_path, voice_payload)
             except Exception as e:
                 LOG.error(e)
                 self.on_websettings_changed()
 
     # mycroft speaking event used for notificatons ***This is what mycroft says***
     def handle_speak(self, message):
-        mqttPath = "Mycroft/" + self.deviceUUID + "/response"
-        LOG.info(mqttPath)
+        mqtt_path = "Mycroft/" + self.deviceUUID + "/response"
+        LOG.info(mqtt_path)
         voice_payload = message.data.get('utterance')
         if self.notifier_bool:
             try:
                 LOG.info(voice_payload)
-                self.send_MQTT(mqttPath, voice_payload)
+                self.send_MQTT(mqtt_path, voice_payload)
             except Exception as e:
                 LOG.error(e)
                 self.on_websettings_changed()
 
-    def send_MQTT(self, myTopic, myMessage):
+    def send_MQTT(self, my_topic, my_message):  # Sends MQTT Message
         if self.MQTT_Enabled:
-            LOG.info("MQTT: " + myTopic + ", " + myMessage)
-            #myID = self.id_generator()
+            LOG.info("MQTT: " + my_topic + ", " + my_message)
+            # myID = self.id_generator()
             LOG.info("address: " + self.broker_address + ", Port: " + str(self.broker_port))
-            publish.single(myTopic, myMessage, hostname=self.broker_address)
+            publish.single(my_topic, my_message, hostname=self.broker_address)
         else:
             LOG.info("MQTT has been disabled in the websettings at https://home.mycroft.ai")
 
