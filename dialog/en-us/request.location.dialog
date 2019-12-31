@@ -1,0 +1,7 @@
+Where would you like to send the, {{result}}
+To whom should this, {{result}}, be sent
+Where would you like to send this, {{result}}
+Where should this, {{result}}, be sent
+What location should receive this, {{result}}
+What device should receive this, {{result}}
+What mycroft unit should receive this, {{result}}

@@ -10,6 +10,12 @@
                         "label": "Complete the data for the following settings."
                     },
                     {
+                        "name": "MQTT_Enabled",
+                        "type": "checkbox",
+                        "label": "Use MQTT?",
+                        "value": "false"
+                    },
+                    {
                         "name": "broker_address",
                         "type": "text",
                         "label": "IP Address of the MQTT Broker",
@@ -24,8 +30,8 @@
                     {
                         "name": "location_id",
                         "type": "text",
-                        "label": "Location Id of this device",
-                        "value": "Basement"
+                        "label": "Location Id (name) of this device (use lower case!)",
+                        "value": "basement"
                     }
                 ]
             }
