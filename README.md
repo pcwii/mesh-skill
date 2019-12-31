@@ -62,3 +62,14 @@ Sending command, set a timer for 5 minutes to the basement.
 mycroft publishes...
 "Mycroft/RemoteDevices/Basement/[{"source":"basement"},{"command":"set a timer for 5 minutes"}]
 ```
+## Installation Notes
+- ensure you have a working MQTT Broker. [how to install mqtt broker.](https://github.com/pcwii/mesh-skill/blob/master/broker_install.md)
+- SSH and run: msm install https://github.com/pcwii/mesh-skill.git
+- Configure home.mycroft.ai to set your broker ip address and port number
+
+## Requirements
+- [paho-mqtt](https://pypi.org/project/paho-mqtt/).
+- [Mycroft](https://docs.mycroft.ai/installing.and.running/installation).
+
+## Todo
+- Testing (20191231)
