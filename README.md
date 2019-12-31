@@ -1,14 +1,43 @@
-# <img src='https://raw.githack.com/FortAwesome/Font-Awesome/master/svgs/solid/network-wired.svg' card_color='#40DBB0' width='50' height='50' style='vertical-align:bottom'/> Mesh
-## About mesh-skill
-A Mycroft.AI skill to provide a conduit for a collection of Mycroft units to communicate with each other.
-### Publishes the following MQTT messages
+# <img src='https://raw.githack.com/FortAwesome/Font-Awesome/master/svgs/solid/broadcast-tower.svg' card_color='#40DBB0' width='50' height='50' style='vertical-align:bottom'/> Mesh
+send MQTT messages and commands between multiple mycroft.ai devices.
+
+## About
+A flock of Seagulls, a pride of Lions, a swarm of Bees, and a "mesh of Mycrofts".
+
+This skill utilizes the lightweight MQTT messaging protocol to connect a group ("mesh") of Mycroft units together. The skill has the ability to send messages (intercom) and commands (messagebus) to one or more remote Mycroft units.
+1. Each Mycroft unit has the ability to publish both Mycroft requests and responses to the the MQTT broker.
+The MQTT Topics for this communication is...
 - ```Mycroft/deviceUUID/request```
 - ```Mycroft/deviceUUID/response```
-- The deviceUUID is created by the MAC of the device
-### Subscribes to the following MQTT message(s)
+2. The deviceUUID is a unique ID created from the MAC of the sending Mycroft unit.
+*This is intended to be a general MQTT broadcast and can be subscribed to by any MQTT client (ie. Home Assistant?).
+3. Each Mycroft unit has it's own Device Name (location_id) that can be set in the web interface.
+4. The Mycroft unit will automatically subscribe to all messages sent to it's own Device Name (location_id).
 - ```Mycroft/RemoteDevices/location_id```
-- Location_ID is set in websettings
-### Responds to a command / message that is received from other units
+5. When a message is sent from any Mycroft unit, the message will be published to "Mycroft/RemoteDevices/location_id".
+6. The destination location_id is specified in the skill dialog.
+7. The message payload will contain the following...
+-```[{"source":"<source_location_id>"},{"message":"is dinner ready yet"}]
+
+
+## Examples
+* "Send a remote message"
+* "Send a remote command"
+
+## Credits
+pcwii
+
+## Category
+**IoT**
+
+## Tags
+#mesh
+#remote
+#connect
+#control
+
+
+## Conversational Context
 - Example 1 (from basement to kitchen)
 ```
 hey mycroft...
