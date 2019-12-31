@@ -57,7 +57,7 @@ class MeshSkill(MycroftSkill):
 
     def on_websettings_changed(self):  # called when updating mycroft home page
         self.MQTT_Enabled = self.settings.get("MQTT_Enabled", True)  # used to enable / disable mqtt
-        self.broker_address = self.settings.get("broker_address", "192.168.0.43")
+        self.broker_address = self.settings.get("broker_address", "127.0.0.1")
         self.broker_port = self.settings.get("broker_port", 1883)
         self.location_id = self.settings.get("location_id", "basement")  # This is the device_id of this device
         self._is_setup = True
