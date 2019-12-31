@@ -71,8 +71,11 @@ mycroft publishes...
 - [paho-mqtt](https://pypi.org/project/paho-mqtt/).
 - [Mycroft](https://docs.mycroft.ai/installing.and.running/installation).
 
+## Warnings!!
+- It is not recomended to use a public MQTT broker at this time as this could expose your commands to other Mycroft Units, or other devices subscribing to your topic.
 ## Todo
 - Connect subscribed "commands" to message bus (20191231)
 - Investigate enabling remote mycroft to reply to messages (20191231)
 ```[{"source":"basement"},{"message":"is dinner ready yet"},{"reply": True}]```
-- 
+- Provide a customization for Topic Names to increase security.(20191231)
+- Autodiscovery???(20191231)
