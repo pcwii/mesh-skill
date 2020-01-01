@@ -80,6 +80,7 @@ mycroft publishes...
 ## Requirements
 - [paho-mqtt](https://pypi.org/project/paho-mqtt/).
 - [Mycroft](https://docs.mycroft.ai/installing.and.running/installation).
+- [Websockets](https://pypi.org/project/websockets/)
 
 ## Warnings!!
 - It is not recomended to use a public MQTT broker at this time as this could expose your commands to other Mycroft Units, or other devices subscribing to your topic.
@@ -88,4 +89,9 @@ mycroft publishes...
 - Investigate enabling remote mycroft to reply to messages (20191231)
     * ```[{"source":"basement"},{"message":"is dinner ready yet"},{"reply": True}]```
 - Provide a customization for Topic Names to increase security.(20191231)
+- Add prompting on remote receiving device before playing messages.(20191231)
+    * Not sure this has value if room is unoccupied.
+- Add prompting on remote receiving device before executing commands messages.(20191231)
+    * Not sure this has value if room is unoccupied.  
 - Autodiscovery???(20191231)
+
