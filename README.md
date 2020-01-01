@@ -37,6 +37,8 @@ pcwii
 #control
 #MQTT
 
+## Overview
+![Overview](/mesh-skill.png)
 
 ## Conversational Context
 - Example 1 (from basement to kitchen)
