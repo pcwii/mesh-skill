@@ -70,7 +70,11 @@ mycroft publishes...
 ## Installation Notes
 - ensure you have a working MQTT Broker. [how to install mqtt broker.](https://github.com/pcwii/mesh-skill/blob/master/broker_install.md)
 - SSH and run: msm install https://github.com/pcwii/mesh-skill.git
-- Configure home.mycroft.ai to set your broker ip address and port number 
+- Configure home.mycroft.ai 
+    * Ensure MQTT is enabled.
+    * Set IP Address of your broker
+    * Set the websocket Port of your broker.
+    * Set the location ID of this mycroft unit.
     * This skill must be installed, and configured for each unit in your "mesh".
 
 ## Requirements

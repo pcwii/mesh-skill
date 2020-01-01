@@ -6,10 +6,6 @@
                 "name": "Settings",
                 "fields": [
                     {
-                        "type": "label",
-                        "label": "Complete the data for the following settings."
-                    },
-                    {
                         "name": "MQTT_Enabled",
                         "type": "checkbox",
                         "label": "Enable / Disable MQTT?",
