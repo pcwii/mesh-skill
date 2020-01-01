@@ -36,6 +36,8 @@ pcwii
 #connect
 #control
 #MQTT
+#HA
+#Homeassistant
 
 ## Overview
 ![Overview](/mesh-skill.png)
