@@ -40,7 +40,7 @@ pcwii
 #Homeassistant
 
 ## Overview
-![Overview](/mesh-skill.png)
+![Overview](/images/mesh-skill.png)
 
 ## Conversational Context
 - Example 1 (from basement to kitchen)
@@ -53,7 +53,7 @@ what would you like the message to be?...
     Is dinner ready yet?
 Sending message, is dinner ready yet to the kitchen.
 mycroft publishes...
-"Mycroft/RemoteDevices/Kitchen/[{"source":"basement"},{"message":"is dinner ready yet"}]
+"<base_topic>/RemoteDevices/kitchen/[{"source":"basement"},{"message":"is dinner ready yet"}]
 ```
 - Example 2 (from kitchen to basement)
 ```
@@ -65,18 +65,19 @@ what would you like the command to be?...
     set a timer for 5 minutes?
 Sending command, set a timer for 5 minutes to the basement.
 mycroft publishes...
-"Mycroft/RemoteDevices/Basement/[{"source":"basement"},{"command":"set a timer for 5 minutes"}]
+"<base_topic>/RemoteDevices/basement/[{"source":"kitchen"},{"command":"set a timer for 5 minutes"}]
 ```
 ## Installation Notes
 - ensure you have a working MQTT Broker. [how to install mqtt broker.](https://github.com/pcwii/mesh-skill/blob/master/broker_install.md)
 - SSH and run: msm install https://github.com/pcwii/mesh-skill.git
-- Configure home.mycroft.ai 
+- Configure home.mycroft.ai
     * Ensure MQTT is enabled.
-    * Create a custom base topic name <base_topic>.
+    * Create a custom base topic name <base_topic>. 
     * Set IP Address of your broker
     * Set the websocket Port of your broker.
     * Set the location ID of this mycroft unit <location_id>.
-    * This skill must be installed, and configured for each unit in your "mesh".
+    * **This skill must be installed, and configured for each unit in your "mesh"**
+    * **MQTT paths are case sensitive**
 
 ## Requirements
 - [paho-mqtt](https://pypi.org/project/paho-mqtt/).
