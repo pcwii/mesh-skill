@@ -38,6 +38,7 @@ class MeshSkill(MycroftSkill):
         self.notifier_bool = True
         self.deviceUUID = ''  # This is the unique ID based on the Mac of this unit
         self.targetDevice = ''  # This is the targed device_id obtained through mycroft dialog
+        self.base_topic = ''
         self.MQTT_Enabled = ''
         self.broker_address = ''
         self.broker_port = ''
@@ -58,6 +59,7 @@ class MeshSkill(MycroftSkill):
     def on_websettings_changed(self):  # called when updating mycroft home page
         self.MQTT_Enabled = self.settings.get("MQTT_Enabled", True)  # used to enable / disable mqtt
         self.broker_address = self.settings.get("broker_address", "127.0.0.1")
+        self.base_topic = self.settings.get("base_topic", "Mycroft")
         self.broker_port = self.settings.get("broker_port", 1883)
         self.location_id = self.settings.get("location_id", "basement")  # This is the device_id of this device
         self._is_setup = True
@@ -65,7 +67,7 @@ class MeshSkill(MycroftSkill):
         self.mqtt_init()
 
     def mqtt_init(self):  # initializes the MQTT configuration and subscribes to its own topic
-        mqtt_path = "Mycroft/RemoteDevices/" + self.location_id
+        mqtt_path = self.base_topic + "/RemoteDevices/" + self.location_id
         self.client.on_message = self.on_message
         self.client.connect(self.broker_address, self.broker_port, 60)
         self.client.subscribe(mqtt_path, 0)
@@ -97,7 +99,7 @@ class MeshSkill(MycroftSkill):
 
     # utterance event used for notifications ***This is what the user requests***
     def handle_utterances(self, message):
-        mqtt_path = "Mycroft/" + self.deviceUUID + "/request"
+        mqtt_path = self.base_topic + "/RemoteDevices/" + self.deviceUUID + "/request"
         LOG.info(mqtt_path)
         voice_payload = str(message.data.get('utterances')[0])
         if self.notifier_bool:
@@ -110,7 +112,7 @@ class MeshSkill(MycroftSkill):
 
     # mycroft speaking event used for notificatons ***This is what mycroft says***
     def handle_speak(self, message):
-        mqtt_path = "Mycroft/" + self.deviceUUID + "/response"
+        mqtt_path = self.base_topic + "/RemoteDevices/" + self.deviceUUID + "/response"
         LOG.info(mqtt_path)
         voice_payload = message.data.get('utterance')
         if self.notifier_bool:
@@ -182,7 +184,7 @@ class MeshSkill(MycroftSkill):
             LOG.info("Preparing to Send a command to " + self.targetDevice)
             message_json['command'] = str(message.utterance_remainder())
         LOG.info("Sending the following : " + str(message_json))
-        mqtt_path = "Mycroft/RemoteDevices/" + self.targetDevice
+        mqtt_path = self.base_topic + "/RemoteDevices/" + self.targetDevice
         self.send_MQTT(mqtt_path, message_json)
 
     def stop(self):

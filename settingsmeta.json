@@ -12,6 +12,12 @@
                         "value": "true"
                     },
                     {
+                        "name": "base_topic",
+                        "type": "text",
+                        "label": "The base MQTT Topic '<base_topic>/RemoteDevices/'",
+                        "value": "Mycroft"
+                    },
+                    {
                         "name": "broker_address",
                         "type": "text",
                         "label": "IP Address of the MQTT Broker",

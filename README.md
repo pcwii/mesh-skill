@@ -7,13 +7,13 @@ A flock of Seagulls, a pride of Lions, a swarm of Bees, and a "mesh of Mycrofts"
 This skill utilizes the lightweight MQTT messaging protocol to connect a group ("mesh") of Mycroft units together. The skill has the ability to send messages (intercom) and commands (messagebus) to one or more remote Mycroft units.
 1. Each Mycroft unit has the ability to publish both Mycroft requests and responses to the the MQTT broker.
 The MQTT Topics for this communication is...
-    * ```Mycroft/deviceUUID/request```
-    * ```Mycroft/deviceUUID/response```
+    * ```<base_topic>/RemoteDevices/deviceUUID/request```
+    * ```<base_topic>/RemoteDevices/deviceUUID/response```
 2. The deviceUUID is a unique ID created from the MAC of the sending Mycroft unit.
 *This is intended to be a general MQTT broadcast and can be subscribed to by any MQTT client (ie. Home Assistant?).
 3. Each Mycroft unit has it's own Device Name (location_id) that can be set in the web interface.
 4. The Mycroft unit will automatically subscribe to all messages sent to it's own Device Name (location_id).
-    * ```Mycroft/RemoteDevices/<location_id>```
+    * ```<base_topic>/RemoteDevices/<location_id>```
 5. When a message is sent from any Mycroft unit, the message will be published to "Mycroft/RemoteDevices/location_id".
 6. The destination location_id is specified in the skill dialog.
 7. The message payload will contain the following...
@@ -72,9 +72,10 @@ mycroft publishes...
 - SSH and run: msm install https://github.com/pcwii/mesh-skill.git
 - Configure home.mycroft.ai 
     * Ensure MQTT is enabled.
+    * Create a custom base topic name <base_topic>.
     * Set IP Address of your broker
     * Set the websocket Port of your broker.
-    * Set the location ID of this mycroft unit.
+    * Set the location ID of this mycroft unit <location_id>.
     * This skill must be installed, and configured for each unit in your "mesh".
 
 ## Requirements
@@ -83,12 +84,14 @@ mycroft publishes...
 - [Websockets](https://pypi.org/project/websockets/)
 
 ## Warnings!!
-- It is not recomended to use a public MQTT broker at this time as this could expose your commands to other Mycroft Units, or other devices subscribing to your topic.
+- It is not recommended to use a public MQTT broker at this time as this could expose your commands to other Mycroft Units, or other devices subscribing to your topic.
+    * Ensure you use a unique <base_topic> for your group (mesh) of mycroft units.
+    * You may segment your groups (meshes) by using different <base_topic> for each group (mesh). 
 ## Todo
 - Connect subscribed "commands" to message bus (20191231)
 - Investigate enabling remote mycroft to reply to messages (20191231)
     * ```[{"source":"basement"},{"message":"is dinner ready yet"},{"reply": True}]```
-- Provide a customization for Topic Names to increase security.(20191231)
+- ~~Provide a customization for Topic Names to increase security.(20191231)~~
 - Add prompting on remote receiving device before playing messages.(20191231)
     * Not sure this has value if room is unoccupied.
 - Add prompting on remote receiving device before executing commands messages.(20191231)
