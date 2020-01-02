@@ -76,7 +76,7 @@ class MeshSkill(MycroftSkill):
             self.client.loop_start()
         else:
             LOG.info('MQTT Not Enabled')
-            self.on_websettings_changed()
+            #self.on_websettings_changed()
 
     def on_message(self, client, obj, msg):  # called when a new MQTT message is received
         LOG.info('message received for location id: ' + self.location_id)
