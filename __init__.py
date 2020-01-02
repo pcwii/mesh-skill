@@ -74,8 +74,8 @@ class MeshSkill(MycroftSkill):
             self.client.connect(self.broker_address, self.broker_port, 60)
             self.client.subscribe(mqtt_path, 0)
             self.client.loop_start()
-        else:
-            LOG.info('MQTT Not Enabled')
+        # else:
+            #LOG.info('MQTT Not Enabled')
             #self.on_websettings_changed()
 
     def on_message(self, client, obj, msg):  # called when a new MQTT message is received
