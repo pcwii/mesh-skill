@@ -76,7 +76,7 @@ class MeshSkill(MycroftSkill):
             self.client.subscribe(mqtt_path, qos)
             LOG.info('Mesh-Skill Subscribing to: ' + mqtt_path)
             while True:
-                self.client.loop()
+                self.client.loop(.1) #blocks for 100ms
             #self.client.loop_start()
             #self.client.loop_forever()
         # else:
