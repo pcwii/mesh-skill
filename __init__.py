@@ -68,7 +68,7 @@ class MeshSkill(MycroftSkill):
 
     def mqtt_init(self):  # initializes the MQTT configuration and subscribes to its own topic
         if self.MQTT_Enabled:
-            LOG.info('MQTT Enabled')
+            LOG.info('MQTT Is now Enabled')
             mqtt_path = self.base_topic + "/RemoteDevices/" + self.location_id
             self.client.on_message = self.on_message
             self.client.connect(self.broker_address, self.broker_port, 60)
