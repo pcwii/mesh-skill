@@ -85,6 +85,7 @@ class MeshSkill(MycroftSkill):
                 LOG.info("Connecting to host: " + self.broker_address + ", on port: " + str(self.broker_port))
                 # client.connect_async(self.broker_address, self.broker_port, 60)
                 client.connect(self.broker_address, self.broker_port, 60)
+                self.on_connect()
                 client.loop_start()
                 LOG.info("MQTT Loop Started Successfully")
             except Exception as e:
