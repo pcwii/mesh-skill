@@ -43,7 +43,7 @@ class MeshSkill(MycroftSkill):
     def __init__(self):
         super(MeshSkill, self).__init__(name="MeshSkill")
         # Initialize settings values
-        self.client = mqtt.Client(self.id_generator())
+#        self.client = mqtt.Client(self.id_generator())
         self._is_setup = False
         self.notifier_bool = True
         self.deviceUUID = ''  # This is the unique ID based on the Mac of this unit
@@ -62,7 +62,6 @@ class MeshSkill(MycroftSkill):
         self.settings.set_changed_callback(self.on_websettings_changed)
         self.on_websettings_changed()
         self.deviceUUID = self.get_mac_address()
-        #self.add_event('recognizer_loop:wakeword', self.handle_listen)  # should be "utterance"
         self.add_event('recognizer_loop:utterance', self.handle_utterances)  # should be "utterances"
         self.add_event('speak', self.handle_speak)  # should be "utterance"
 
@@ -79,36 +78,46 @@ class MeshSkill(MycroftSkill):
     def mqtt_init(self):  # initializes the MQTT configuration and subscribes to its own topic
         if self.MQTT_Enabled:
             LOG.info('MQTT Is Enabled')
-            mqtt_path = self.base_topic + "/RemoteDevices/" + self.location_id
+            client.on_connect = self.on_connect
             client.on_message = self.on_message
-            #client.connect(self.broker_address, self.broker_port, 60)
-            qos = 0
-            client.subscribe(mqtt_path, qos)
-            LOG.info('Mesh-Skill Subscribing to: ' + mqtt_path)
-            #client.loop_start()
             try:
                 LOG.info("Connecting to host: " + self.broker_address + ", on port: " + str(self.broker_port))
                 client.connect_async(self.broker_address, self.broker_port, 60)
                 client.loop_start()
-                # self.loop_succeeded = True
+                LOG.inof("MQTT Loop Started Successfully")
             except Exception as e:
                 LOG.error('Error: {0}'.format(e))
 
+    def on_connect(self, client, userdata, flags, rc):
+        mqtt_path = self.base_topic + "/RemoteDevices/" + self.location_id
+        qos = 0
+        client.subscribe(mqtt_path, qos)
+        LOG.info('Mesh-Skill Subscribing to: ' + mqtt_path)
+        if rc == 0:
+            LOG.info('Connected to ' + self.topic)
+        else:
+            LOG.error('Connection to ' + self.topic +
+                      ' failed, error code ' + rc)
 
     def on_message(self, client, obj, msg):  # called when a new MQTT message is received
-        LOG.info('message received for location id: ' + self.location_id)
-        LOG.info(msg.payload)
-        mqtt_message = str(msg.payload)[2:-1]
-        new_message = json.loads(mqtt_message)
-        LOG.info(msg.topic + " " + str(msg.qos) + ", " + mqtt_message)
-        if "command" in new_message:
-            LOG.info('Command Received! - ' + new_message["command"])
-            self.send_message(new_message["command"])
-        elif "message" in new_message:
-            LOG.info('Message Received! - ' + new_message["message"])
-            self.speak_dialog('location.dialog', data={"location": new_message["source"]}, expect_response=False)
-            wait_while_speaking()
-            self.speak_dialog('message.dialog', data={"message": new_message["message"]}, expect_response=False)
+        try:
+            m = msg.payload.decode('utf-8')
+            LOG.info('message received for location id: ' + self.location_id)
+            LOG.info(m)
+        except Exception as e:
+            LOG.error('Error: {0}'.format(e))
+
+#        mqtt_message = str(msg.payload)[2:-1]
+#        new_message = json.loads(mqtt_message)
+#        LOG.info(msg.topic + " " + str(msg.qos) + ", " + mqtt_message)
+#        if "command" in new_message:
+#            LOG.info('Command Received! - ' + new_message["command"])
+#            self.send_message(new_message["command"])
+#        elif "message" in new_message:
+#            LOG.info('Message Received! - ' + new_message["message"])
+#            self.speak_dialog('location.dialog', data={"location": new_message["source"]}, expect_response=False)
+#            wait_while_speaking()
+#            self.speak_dialog('message.dialog', data={"message": new_message["message"]}, expect_response=False)
 
     def id_generator(self, size=6, chars=string.ascii_uppercase + string.digits):
         return ''.join(random.choice(chars) for _ in range(size))
