@@ -23,6 +23,16 @@ __author__ = 'PCWii'
 # statements will show up in the command line when running Mycroft.
 LOGGER = getLogger(__name__)
 
+try:
+    client
+    LOG.info('Client exist')
+    client.loop_stop()
+    client.disconnect()
+    LOG.info('Stopped old client loop')
+except NameError:
+    client = mqtt.Client()
+    LOG.info('Client created')
+
 
 # The logic of each skill is contained within its own class, which inherits
 # base methods from the MycroftSkill class with the syntax you can see below:
@@ -70,16 +80,16 @@ class MeshSkill(MycroftSkill):
         if self.MQTT_Enabled:
             LOG.info('MQTT Is Enabled')
             mqtt_path = self.base_topic + "/RemoteDevices/" + self.location_id
-            self.client.on_message = self.on_message
-            #self.client.connect(self.broker_address, self.broker_port, 60)
+            client.on_message = self.on_message
+            #client.connect(self.broker_address, self.broker_port, 60)
             qos = 0
-            self.client.subscribe(mqtt_path, qos)
+            client.subscribe(mqtt_path, qos)
             LOG.info('Mesh-Skill Subscribing to: ' + mqtt_path)
-            #self.client.loop_start()
+            #client.loop_start()
             try:
                 LOG.info("Connecting to host: " + self.broker_address + ", on port: " + str(self.broker_port))
-                self.client.connect_async(self.broker_address, self.broker_port, 60)
-                self.client.loop_start()
+                client.connect_async(self.broker_address, self.broker_port, 60)
+                client.loop_start()
                 # self.loop_succeeded = True
             except Exception as e:
                 LOG.error('Error: {0}'.format(e))
