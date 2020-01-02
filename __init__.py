@@ -71,11 +71,19 @@ class MeshSkill(MycroftSkill):
             LOG.info('MQTT Is Enabled')
             mqtt_path = self.base_topic + "/RemoteDevices/" + self.location_id
             self.client.on_message = self.on_message
-            self.client.connect(self.broker_address, self.broker_port, 60)
+            #self.client.connect(self.broker_address, self.broker_port, 60)
             qos = 0
             self.client.subscribe(mqtt_path, qos)
             LOG.info('Mesh-Skill Subscribing to: ' + mqtt_path)
-            self.client.loop_start()
+            #self.client.loop_start()
+            try:
+                LOG.info("Connecting to host: " + self.broker_address + ", on port: " + str(self.broker_port))
+                self.client.connect_async(self.broker_address, self.broker_port, 60)
+                self.client.loop_start()
+                # self.loop_succeeded = True
+            except Exception as e:
+                LOG.error('Error: {0}'.format(e))
+
 
     def on_message(self, client, obj, msg):  # called when a new MQTT message is received
         LOG.info('message received for location id: ' + self.location_id)
