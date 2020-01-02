@@ -57,7 +57,7 @@ class MeshSkill(MycroftSkill):
         self.add_event('speak', self.handle_speak)  # should be "utterance"
 
     def on_websettings_changed(self):  # called when updating mycroft home page
-        self.MQTT_Enabled = self.settings.get("MQTT_Enabled", True)  # used to enable / disable mqtt
+        self.MQTT_Enabled = self.settings.get("MQTT_Enabled", False)  # used to enable / disable mqtt
         self.broker_address = self.settings.get("broker_address", "127.0.0.1")
         self.base_topic = self.settings.get("base_topic", "Mycroft")
         self.broker_port = self.settings.get("broker_port", 1883)
@@ -67,11 +67,15 @@ class MeshSkill(MycroftSkill):
         self.mqtt_init()
 
     def mqtt_init(self):  # initializes the MQTT configuration and subscribes to its own topic
-        mqtt_path = self.base_topic + "/RemoteDevices/" + self.location_id
-        self.client.on_message = self.on_message
-        self.client.connect(self.broker_address, self.broker_port, 60)
-        self.client.subscribe(mqtt_path, 0)
-        self.client.loop_start()
+        if self.MQTT_Enabled:
+            mqtt_path = self.base_topic + "/RemoteDevices/" + self.location_id
+            self.client.on_message = self.on_message
+            self.client.connect(self.broker_address, self.broker_port, 60)
+            self.client.subscribe(mqtt_path, 0)
+            self.client.loop_start()
+        else:
+            LOG.info('MQTT Not Enabled')
+            self.on_websettings_changed()
 
     def on_message(self, client, obj, msg):  # called when a new MQTT message is received
         LOG.info('message received for location id: ' + self.location_id)
