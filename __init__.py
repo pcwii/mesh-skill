@@ -64,6 +64,8 @@ class MeshSkill(MycroftSkill):
         self.deviceUUID = self.get_mac_address()
         self.add_event('recognizer_loop:utterance', self.handle_utterances)  # should be "utterances"
         self.add_event('speak', self.handle_speak)  # should be "utterance"
+        client.on_connect = self.on_connect
+        client.on_message = self.on_message
 
     def on_websettings_changed(self):  # called when updating mycroft home page
         self.MQTT_Enabled = self.settings.get("MQTT_Enabled", False)  # used to enable / disable mqtt
@@ -78,8 +80,6 @@ class MeshSkill(MycroftSkill):
     def mqtt_init(self):  # initializes the MQTT configuration and subscribes to its own topic
         if self.MQTT_Enabled:
             LOG.info('MQTT Is Enabled')
-            client.on_connect = self.on_connect
-            client.on_message = self.on_message
             try:
                 LOG.info("Connecting to host: " + self.broker_address + ", on port: " + str(self.broker_port))
                 client.connect_async(self.broker_address, self.broker_port, 60)
