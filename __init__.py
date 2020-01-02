@@ -75,13 +75,7 @@ class MeshSkill(MycroftSkill):
             qos = 0
             self.client.subscribe(mqtt_path, qos)
             LOG.info('Mesh-Skill Subscribing to: ' + mqtt_path)
-            #while True:
-                #self.client.loop(.1) #blocks for 100ms
             self.client.loop_start()
-            #self.client.loop_forever()
-        # else:
-            #LOG.info('MQTT Not Enabled')
-            #self.on_websettings_changed()
 
     def on_message(self, client, obj, msg):  # called when a new MQTT message is received
         LOG.info('message received for location id: ' + self.location_id)
@@ -198,7 +192,6 @@ class MeshSkill(MycroftSkill):
         self.send_MQTT(mqtt_path, message_json)
 
     def stop(self):
-        self.client.loop_stop(self)
         pass
 
 
