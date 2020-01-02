@@ -24,13 +24,13 @@ __author__ = 'PCWii'
 LOGGER = getLogger(__name__)
 
 try:
-    client
+    mqttc
     LOG.info('Client exist')
-    client.loop_stop()
-    client.disconnect()
+    mqttc.loop_stop()
+    mqttc.disconnect()
     LOG.info('Stopped old client loop')
 except NameError:
-    client = mqtt.Client()
+    mqttc = mqtt.Client()
     LOG.info('Client created')
 
 
@@ -64,8 +64,8 @@ class MeshSkill(MycroftSkill):
         self.deviceUUID = self.get_mac_address()
         self.add_event('recognizer_loop:utterance', self.handle_utterances)  # should be "utterances"
         self.add_event('speak', self.handle_speak)  # should be "utterance"
-        client.on_connect = self.on_connect
-        client.on_message = self.on_message
+        mqttc.on_connect = self.on_connect
+        mqttc.on_message = self.on_message
         self.mqtt_init()
 
     def on_websettings_changed(self):  # called when updating mycroft home page
@@ -83,21 +83,22 @@ class MeshSkill(MycroftSkill):
             LOG.info('MQTT Is Enabled')
             try:
                 LOG.info("Connecting to host: " + self.broker_address + ", on port: " + str(self.broker_port))
-                # client.connect_async(self.broker_address, self.broker_port, 60)
-                client.connect(self.broker_address, self.broker_port, 60)
+                # mqttc.connect_async(self.broker_address, self.broker_port, 60)
+                mqttc.connect(self.broker_address, self.broker_port, 60)
                 self.on_connect()
-                client.loop_start()
+                mqttc.loop_start()
                 LOG.info("MQTT Loop Started Successfully")
             except Exception as e:
                 LOG.error('Error: {0}'.format(e))
 
-    def on_connect(self):
+    def on_connect(self, mqttc, obj, flags, rc):
+        LOG.info("Connection Verified")
         mqtt_path = self.base_topic + "/RemoteDevices/" + self.location_id
         qos = 0
-        client.subscribe(mqtt_path, qos)
+        mqttc.subscribe(mqtt_path, qos)
         LOG.info('Mesh-Skill Subscribing to: ' + mqtt_path)
 
-    def on_message(self, msg):  # called when a new MQTT message is received
+    def on_message(self, mqttc, obj, msg):  # called when a new MQTT message is received
         try:
             m = msg.payload.decode('utf-8')
             LOG.info('message received for location id: ' + self.location_id)
