@@ -90,18 +90,13 @@ class MeshSkill(MycroftSkill):
             except Exception as e:
                 LOG.error('Error: {0}'.format(e))
 
-    def on_connect(self, client, userdata, flags, rc):
+    def on_connect(self):
         mqtt_path = self.base_topic + "/RemoteDevices/" + self.location_id
         qos = 0
         client.subscribe(mqtt_path, qos)
         LOG.info('Mesh-Skill Subscribing to: ' + mqtt_path)
-        if rc == 0:
-            LOG.info('Connected to ' + self.topic)
-        else:
-            LOG.error('Connection to ' + self.topic +
-                      ' failed, error code ' + rc)
 
-    def on_message(self, client, obj, msg):  # called when a new MQTT message is received
+    def on_message(self, msg):  # called when a new MQTT message is received
         try:
             m = msg.payload.decode('utf-8')
             LOG.info('message received for location id: ' + self.location_id)
