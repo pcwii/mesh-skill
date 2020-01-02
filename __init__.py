@@ -96,7 +96,7 @@ class MeshSkill(MycroftSkill):
     def id_generator(self, size=6, chars=string.ascii_uppercase + string.digits):
         return ''.join(random.choice(chars) for _ in range(size))
 
-    def get_mac_address():  #used to create a unique UUID for this device that
+    def get_mac_address(self):  #used to create a unique UUID for this device that
         node = uuid.getnode()
         mac = uuid.UUID(int=node).hex[-12:]
         LOG.info("MQTT using UUID: " + mac)
