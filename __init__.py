@@ -195,9 +195,11 @@ class MeshSkill(MycroftSkill):
         self.set_context('GetLocationContextKeyword', 'GetLocationContext')
         if "MessageKeyword" in message.data:
             self.set_context('MessageKeyword', 'message')
+            msg_type = "message"
         if "CommandKeyword" in message.data:
             self.set_context('CommandKeyword', 'command')
-        self.speak_dialog('request.location')#, data={"result": message.data}, expect_response=True)
+            msg_type = "command"
+        self.speak_dialog('request.location', data={"result": msg_type}, expect_response=True)
 
     # Second step in the dialog is to request the location to send the message/command
     @intent_handler(IntentBuilder("GetLocationIntent").require("GetLocationContextKeyword").
