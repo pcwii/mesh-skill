@@ -151,16 +151,17 @@ class MeshSkill(MycroftSkill):
             try:
                 LOG.info(voice_payload)
                 self.send_MQTT(mqtt_path, voice_payload)
-                if not self.response_location.strip():
-                    self.response_location = ''
-                else:
-                    reply_payload = json.dumps({
-                        "source": self.location_id,
-                        "message": voice_payload
-                    })
-                    reply_path = self.base_topic + "/RemoteDevices/" + self.response_location
-                    self.response_location = ''
-                    self.send_MQTT(reply_path, reply_payload)
+                #Todo provide a response to remote commands
+#                if not self.response_location.strip():
+#                    self.response_location = ''
+#                else:
+#                    reply_payload = json.dumps({
+#                        "source": self.location_id,
+#                        "message": voice_payload
+#                    })
+#                    reply_path = self.base_topic + "/RemoteDevices/" + self.response_location
+#                    self.response_location = ''
+#                    self.send_MQTT(reply_path, reply_payload)
             except Exception as e:
                 LOG.error(e)
                 self.on_websettings_changed()
