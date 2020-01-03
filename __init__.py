@@ -73,9 +73,9 @@ class MeshSkill(MycroftSkill):
                 self.send_message(new_message["command"])
             elif "message" in new_message:
                 LOG.info('Message Received! - ' + new_message["message"] + ', From: ' + new_message["source"])
-                self.speak_dialog('location.dialog', data={"result": new_message["source"]}, expect_response=False)
+                self.speak_dialog('location', data={"result": new_message["source"]}, expect_response=False)
                 wait_while_speaking()
-                self.speak_dialog('message.dialog', data={"result": new_message["message"]}, expect_response=False)
+                self.speak_dialog('message', data={"result": new_message["message"]}, expect_response=False)
             else:
                 LOG.info('Unable to decode the MQTT Message')
         except Exception as e:
