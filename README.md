@@ -97,5 +97,6 @@ mycroft publishes...
     * Not sure this has value if room is unoccupied.
 - Add prompting on remote receiving device before executing commands messages.(20191231)
     * Not sure this has value if room is unoccupied.  
+- Redirect remote responses to the commanding mycroft unit (20191231)
 - Autodiscovery???(20191231)
 

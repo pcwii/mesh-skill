@@ -53,6 +53,7 @@ class MeshSkill(MycroftSkill):
         self.broker_address = ''
         self.broker_port = ''
         self.location_id = ''
+        self.response_location = ''
 
     def on_connect(self, mqttc, obj, flags, rc):
         LOG.info("Connection Verified")
@@ -71,6 +72,7 @@ class MeshSkill(MycroftSkill):
             if "command" in new_message:
                 # example: {"source":"kitchen", "command":"what time is it"}
                 LOG.info('Command Received! - ' + new_message["command"] + ', From: ' + new_message["source"])
+                self.response_location = new_message["source"]
                 self.send_message(new_message["command"])
             elif "message" in new_message:
                 # example: {"source":"kitchen", "message":"is dinner ready yet"}
@@ -148,6 +150,14 @@ class MeshSkill(MycroftSkill):
             try:
                 LOG.info(voice_payload)
                 self.send_MQTT(mqtt_path, voice_payload)
+                if not self.response_location:
+                    reply_payload = json.dumps({
+                        "source": self.response_location,
+                        "message": voice_payload
+                    })
+                    reply_path = self.base_topic + "/RemoteDevices/" + self.response_location
+                    self.response_location = ''
+                    self.send_MQTT(reply_path, reply_payload)
             except Exception as e:
                 LOG.error(e)
                 self.on_websettings_changed()
