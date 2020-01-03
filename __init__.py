@@ -62,6 +62,7 @@ class MeshSkill(MycroftSkill):
         LOG.info('Mesh-Skill Subscribing to: ' + mqtt_path)
 
     def on_message(self, mqttc, obj, msg):  # called when a new MQTT message is received
+        # Sample Payload [{"source":"basement"},{"message":"is dinner ready yet"}]
         LOG.info('message received for location id: ' + self.location_id)
         try:
             mqtt_message = msg.payload.decode('utf-8')
