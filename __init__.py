@@ -23,6 +23,7 @@ __author__ = 'PCWii'
 # statements will show up in the command line when running Mycroft.
 LOGGER = getLogger(__name__)
 
+# clear any previously connected mqtt clients on first load
 try:
     mqttc
     LOG.info('Client exist')
@@ -43,7 +44,6 @@ class MeshSkill(MycroftSkill):
     def __init__(self):
         super(MeshSkill, self).__init__(name="MeshSkill")
         # Initialize settings values
-#        self.client = mqtt.Client(self.id_generator())
         self._is_setup = False
         self.notifier_bool = True
         self.deviceUUID = ''  # This is the unique ID based on the Mac of this unit
@@ -64,22 +64,21 @@ class MeshSkill(MycroftSkill):
     def on_message(self, mqttc, obj, msg):  # called when a new MQTT message is received
         LOG.info('message received for location id: ' + self.location_id)
         try:
-            m = msg.payload.decode('utf-8')
-            LOG.info(m)
+            mqtt_message = msg.payload.decode('utf-8')
+            LOG.info(msg.topic + " " + str(msg.qos) + ", " + mqtt_message)
+            new_message = json.loads(mqtt_message)
+            if "command" in new_message:
+                LOG.info('Command Received! - ' + new_message["command"])
+                self.send_message(new_message["command"])
+            elif "message" in new_message:
+                LOG.info('Message Received! - ' + new_message["message"])
+                self.speak_dialog('location.dialog', data={"location": new_message["source"]}, expect_response=False)
+                wait_while_speaking()
+                self.speak_dialog('message.dialog', data={"message": new_message["message"]}, expect_response=False)
+            else:
+                LOG.info('Unable to decode the MQTT Message')
         except Exception as e:
             LOG.error('Error: {0}'.format(e))
-
-#        mqtt_message = str(msg.payload)[2:-1]
-#        new_message = json.loads(mqtt_message)
-#        LOG.info(msg.topic + " " + str(msg.qos) + ", " + mqtt_message)
-#        if "command" in new_message:
-#            LOG.info('Command Received! - ' + new_message["command"])
-#            self.send_message(new_message["command"])
-#        elif "message" in new_message:
-#            LOG.info('Message Received! - ' + new_message["message"])
-#            self.speak_dialog('location.dialog', data={"location": new_message["source"]}, expect_response=False)
-#            wait_while_speaking()
-#            self.speak_dialog('message.dialog', data={"message": new_message["message"]}, expect_response=False)
 
     # This method loads the files needed for the skill's functioning, and
     # creates and registers each intent that the skill uses
@@ -103,7 +102,6 @@ class MeshSkill(MycroftSkill):
         self.location_id = self.settings.get("location_id", "basement")  # This is the device_id of this device
         self._is_setup = True
         LOG.info("Websettings Changed! " + self.broker_address + ", " + str(self.broker_port))
-#        self.mqtt_init()
 
     def mqtt_init(self):  # initializes the MQTT configuration and subscribes to its own topic
         if self.MQTT_Enabled:
@@ -111,13 +109,10 @@ class MeshSkill(MycroftSkill):
             try:
                 LOG.info("Connecting to host: " + self.broker_address + ", on port: " + str(self.broker_port))
                 mqttc.connect_async(self.broker_address, self.broker_port, 60)
-                #mqttc.connect(self.broker_address, self.broker_port, 60)
-                #self.on_connect()
                 mqttc.loop_start()
                 LOG.info("MQTT Loop Started Successfully")
             except Exception as e:
                 LOG.error('Error: {0}'.format(e))
-
 
     def id_generator(self, size=6, chars=string.ascii_uppercase + string.digits):
         return ''.join(random.choice(chars) for _ in range(size))
