@@ -62,9 +62,9 @@ class MeshSkill(MycroftSkill):
         LOG.info('Mesh-Skill Subscribing to: ' + mqtt_path)
 
     def on_message(self, mqttc, obj, msg):  # called when a new MQTT message is received
+        LOG.info('message received for location id: ' + self.location_id)
         try:
             m = msg.payload.decode('utf-8')
-            LOG.info('message received for location id: ' + self.location_id)
             LOG.info(m)
         except Exception as e:
             LOG.error('Error: {0}'.format(e))
