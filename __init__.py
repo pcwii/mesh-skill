@@ -54,6 +54,33 @@ class MeshSkill(MycroftSkill):
         self.broker_port = ''
         self.location_id = ''
 
+    def on_connect(self, mqttc, obj, flags, rc):
+        LOG.info("Connection Verified")
+        mqtt_path = self.base_topic + "/RemoteDevices/" + self.location_id
+        qos = 0
+        mqttc.subscribe(mqtt_path, qos)
+        LOG.info('Mesh-Skill Subscribing to: ' + mqtt_path)
+
+    def on_message(self, mqttc, obj, msg):  # called when a new MQTT message is received
+        try:
+            m = msg.payload.decode('utf-8')
+            LOG.info('message received for location id: ' + self.location_id)
+            LOG.info(m)
+        except Exception as e:
+            LOG.error('Error: {0}'.format(e))
+
+#        mqtt_message = str(msg.payload)[2:-1]
+#        new_message = json.loads(mqtt_message)
+#        LOG.info(msg.topic + " " + str(msg.qos) + ", " + mqtt_message)
+#        if "command" in new_message:
+#            LOG.info('Command Received! - ' + new_message["command"])
+#            self.send_message(new_message["command"])
+#        elif "message" in new_message:
+#            LOG.info('Message Received! - ' + new_message["message"])
+#            self.speak_dialog('location.dialog', data={"location": new_message["source"]}, expect_response=False)
+#            wait_while_speaking()
+#            self.speak_dialog('message.dialog', data={"message": new_message["message"]}, expect_response=False)
+
     # This method loads the files needed for the skill's functioning, and
     # creates and registers each intent that the skill uses
     def initialize(self):
@@ -85,38 +112,12 @@ class MeshSkill(MycroftSkill):
                 LOG.info("Connecting to host: " + self.broker_address + ", on port: " + str(self.broker_port))
                 # mqttc.connect_async(self.broker_address, self.broker_port, 60)
                 mqttc.connect(self.broker_address, self.broker_port, 60)
-                self.on_connect()
+                #self.on_connect()
                 mqttc.loop_start()
                 LOG.info("MQTT Loop Started Successfully")
             except Exception as e:
                 LOG.error('Error: {0}'.format(e))
 
-    def on_connect(self, mqttc, obj, flags, rc):
-        LOG.info("Connection Verified")
-        mqtt_path = self.base_topic + "/RemoteDevices/" + self.location_id
-        qos = 0
-        mqttc.subscribe(mqtt_path, qos)
-        LOG.info('Mesh-Skill Subscribing to: ' + mqtt_path)
-
-    def on_message(self, mqttc, obj, msg):  # called when a new MQTT message is received
-        try:
-            m = msg.payload.decode('utf-8')
-            LOG.info('message received for location id: ' + self.location_id)
-            LOG.info(m)
-        except Exception as e:
-            LOG.error('Error: {0}'.format(e))
-
-#        mqtt_message = str(msg.payload)[2:-1]
-#        new_message = json.loads(mqtt_message)
-#        LOG.info(msg.topic + " " + str(msg.qos) + ", " + mqtt_message)
-#        if "command" in new_message:
-#            LOG.info('Command Received! - ' + new_message["command"])
-#            self.send_message(new_message["command"])
-#        elif "message" in new_message:
-#            LOG.info('Message Received! - ' + new_message["message"])
-#            self.speak_dialog('location.dialog', data={"location": new_message["source"]}, expect_response=False)
-#            wait_while_speaking()
-#            self.speak_dialog('message.dialog', data={"message": new_message["message"]}, expect_response=False)
 
     def id_generator(self, size=6, chars=string.ascii_uppercase + string.digits):
         return ''.join(random.choice(chars) for _ in range(size))
