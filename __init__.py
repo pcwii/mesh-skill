@@ -207,9 +207,11 @@ class MeshSkill(MycroftSkill):
         self.targetDevice = str(message.utterance_remainder())
         if "MessageKeyword" in message.data:
             self.set_context('MessageKeyword', 'message')
+            msg_type = "message"
         if "CommandKeyword" in message.data:
             self.set_context('CommandKeyword', 'command')
-        self.speak_dialog('request.details', data={"result": message.data}, expect_response=True)
+            msg_type = "command"
+        self.speak_dialog('request.details', data={"result": msg_type}, expect_response=True)
 
     # Third step is to combine everything
     @intent_handler(IntentBuilder("GetDetailsIntent").require("GetDetailsContextKeyword").
