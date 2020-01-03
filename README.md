@@ -16,8 +16,8 @@ The MQTT Topics for this communication is...
     * ```<base_topic>/RemoteDevices/<location_id>```
 5. When a message is sent from any Mycroft unit, the message will be published to "Mycroft/RemoteDevices/location_id".
 6. The destination location_id is specified in the skill dialog.
-7. The message payload will contain the following...
-    * ```[{"source":"<source_location_id>"},{"message":"is dinner ready yet"}]```
+7. The message payload will contain the following Json...
+    * ```{"source":"<source_location_id>", "message":"is dinner ready yet"}```
 
 
 ## Examples
@@ -53,7 +53,7 @@ what would you like the message to be?...
     Is dinner ready yet?
 Sending message, is dinner ready yet to the kitchen.
 mycroft publishes...
-"<base_topic>/RemoteDevices/kitchen/[{"source":"basement"},{"message":"is dinner ready yet"}]
+"<base_topic>/RemoteDevices/kitchen/{"source":"basement", "message":"is dinner ready yet"}
 ```
 - Example 2 (from kitchen to basement)
 ```
@@ -65,7 +65,7 @@ what would you like the command to be?...
     set a timer for 5 minutes?
 Sending command, set a timer for 5 minutes to the basement.
 mycroft publishes...
-"<base_topic>/RemoteDevices/basement/[{"source":"kitchen"},{"command":"set a timer for 5 minutes"}]
+"<base_topic>/RemoteDevices/basement/{"source":"kitchen", "command":"set a timer for 5 minutes"}
 ```
 ## Installation Notes
 - ensure you have a working MQTT Broker. [how to install mqtt broker.](https://github.com/pcwii/mesh-skill/blob/master/broker_install.md)
@@ -91,7 +91,7 @@ mycroft publishes...
 ## Todo
 - Connect subscribed "commands" to message bus (20191231)
 - Investigate enabling remote mycroft to reply to messages (20191231)
-    * ```[{"source":"basement"},{"message":"is dinner ready yet"},{"reply": True}]```
+    * ```{"source":"basement", "message":"is dinner ready yet", "reply": True}```
 - ~~Provide a customization for Topic Names to increase security.(20191231)~~
 - Add prompting on remote receiving device before playing messages.(20191231)
     * Not sure this has value if room is unoccupied.
