@@ -167,7 +167,7 @@ class MeshSkill(MycroftSkill):
 
     def send_MQTT(self, my_topic, my_message):  # Sends MQTT Message
         if self.MQTT_Enabled:
-            LOG.info("MQTT: " + my_topic + ", " + my_message)
+            LOG.info("MQTT: " + my_topic + ", " + str(my_message))
             # myID = self.id_generator()
             LOG.info("address: " + self.broker_address + ", Port: " + str(self.broker_port))
             publish.single(my_topic, my_message, hostname=self.broker_address)
