@@ -150,7 +150,7 @@ class MeshSkill(MycroftSkill):
             try:
                 LOG.info(voice_payload)
                 self.send_MQTT(mqtt_path, voice_payload)
-                if not self.response_location:
+                if not self.response_location.strip():
                     reply_payload = json.dumps({
                         "source": self.response_location,
                         "message": voice_payload
