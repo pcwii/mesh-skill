@@ -1,3 +1,3 @@
-The following message was received from the, {{location}}
-You have a new message from the, {{location}}
-The, {{location}}, has send you a message.
+The following message was received from the, {{result}}
+You have a new message from the, {{result}}
+The, {{result}}, has send you a message.

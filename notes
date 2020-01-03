@@ -1,0 +1,9 @@
+import json
+
+#r = {'is_claimed': 'True', 'rating': 3.5}
+r = {"source":"basement", "message":"is dinner ready yet"}
+r = json.dumps(r)
+loaded_r = json.loads(r)
+print(loaded_r['source']) #Output 3.5
+print(r) #Output str
+print(loaded_r) #Output dict

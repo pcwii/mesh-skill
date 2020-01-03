@@ -62,7 +62,7 @@ class MeshSkill(MycroftSkill):
         LOG.info('Mesh-Skill Subscribing to: ' + mqtt_path)
 
     def on_message(self, mqttc, obj, msg):  # called when a new MQTT message is received
-        # Sample Payload [{"source":"basement"},{"message":"is dinner ready yet"}]
+        # Sample Payload {"source":"basement", "message":"is dinner ready yet"}
         LOG.info('message received for location id: ' + self.location_id)
         try:
             mqtt_message = msg.payload.decode('utf-8')
@@ -72,10 +72,10 @@ class MeshSkill(MycroftSkill):
                 LOG.info('Command Received! - ' + new_message["command"])
                 self.send_message(new_message["command"])
             elif "message" in new_message:
-                LOG.info('Message Received! - ' + new_message["message"])
-                self.speak_dialog('location.dialog', data={"location": new_message["source"]}, expect_response=False)
+                LOG.info('Message Received! - ' + new_message["message"] + ', From: ' + new_message["source"])
+                self.speak_dialog('location.dialog', data={"result": new_message["source"]}, expect_response=False)
                 wait_while_speaking()
-                self.speak_dialog('message.dialog', data={"message": new_message["message"]}, expect_response=False)
+                self.speak_dialog('message.dialog', data={"result": new_message["message"]}, expect_response=False)
             else:
                 LOG.info('Unable to decode the MQTT Message')
         except Exception as e:
