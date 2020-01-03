@@ -155,7 +155,7 @@ class MeshSkill(MycroftSkill):
                     self.response_location = ''
                 else:
                     reply_payload = json.dumps({
-                        "source": self.response_location,
+                        "source": self.location_id,
                         "message": voice_payload
                     })
                     reply_path = self.base_topic + "/RemoteDevices/" + self.response_location
