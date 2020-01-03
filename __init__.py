@@ -76,6 +76,7 @@ class MeshSkill(MycroftSkill):
                 self.send_message(new_message["command"])
             elif "message" in new_message:
                 # example: {"source":"kitchen", "message":"is dinner ready yet"}
+                self.response_location = ''
                 LOG.info('Message Received! - ' + new_message["message"] + ', From: ' + new_message["source"])
                 self.speak_dialog('location', data={"result": new_message["source"]}, expect_response=False)
                 wait_while_speaking()
