@@ -171,7 +171,7 @@ class MeshSkill(MycroftSkill):
             LOG.info("MQTT: " + my_topic + ", " + str(my_message))
             # myID = self.id_generator()
             LOG.info("address: " + self.broker_address + ", Port: " + str(self.broker_port))
-            publish.single(my_topic, my_message, hostname=self.broker_address)
+            publish.single(my_topic, str(my_message), hostname=self.broker_address)
         else:
             LOG.info("MQTT has been disabled in the websettings at https://home.mycroft.ai")
 
