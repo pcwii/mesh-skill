@@ -69,9 +69,11 @@ class MeshSkill(MycroftSkill):
             LOG.info(msg.topic + " " + str(msg.qos) + ", " + mqtt_message)
             new_message = json.loads(mqtt_message)
             if "command" in new_message:
+                # example: {"source":"kitchen", "command":"what time is it"}
                 LOG.info('Command Received! - ' + new_message["command"])
                 self.send_message(new_message["command"])
             elif "message" in new_message:
+                # example: {"source":"kitchen", "message":"is dinner ready yet"}
                 LOG.info('Message Received! - ' + new_message["message"] + ', From: ' + new_message["source"])
                 self.speak_dialog('location', data={"result": new_message["source"]}, expect_response=False)
                 wait_while_speaking()
