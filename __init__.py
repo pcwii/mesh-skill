@@ -133,11 +133,11 @@ class MeshSkill(MycroftSkill):
     # utterance event used for notifications ***This is what the user requests***
     def handle_utterances(self, message):
         mqtt_path = self.base_topic + "/RemoteDevices/" + self.deviceUUID + "/request"
-        LOG.info(mqtt_path)
+        # LOG.info(mqtt_path)
         voice_payload = str(message.data.get('utterances')[0])
         if self.notifier_bool:
             try:
-                LOG.info(voice_payload)
+                # LOG.info(voice_payload)
                 self.send_MQTT(mqtt_path, voice_payload)
             except Exception as e:
                 LOG.error(e)
@@ -146,11 +146,11 @@ class MeshSkill(MycroftSkill):
     # mycroft speaking event used for notificatons ***This is what mycroft says***
     def handle_speak(self, message):
         mqtt_path = self.base_topic + "/RemoteDevices/" + self.deviceUUID + "/response"
-        LOG.info(mqtt_path)
+        # LOG.info(mqtt_path)
         voice_payload = message.data.get('utterance')
         if self.notifier_bool:
             try:
-                LOG.info(voice_payload)
+                # LOG.info(voice_payload)
                 self.send_MQTT(mqtt_path, voice_payload)
                 #Todo provide a response to remote commands
                 LOG.info("Response Location: " + self.response_location)
