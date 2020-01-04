@@ -179,6 +179,7 @@ class MeshSkill(MycroftSkill):
             LOG.info("MQTT has been disabled in the websettings at https://home.mycroft.ai")
 
     def send_message(self, message):  # Sends the remote received commands to the messagebus
+        LOG.info("Mesh-skill is sending a command to the message bus: " + message)
         payload = json.dumps({
             "type": "recognizer_loop:utterance",
             "context": "",
