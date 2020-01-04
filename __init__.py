@@ -153,7 +153,7 @@ class MeshSkill(MycroftSkill):
                 # LOG.info(voice_payload)
                 self.send_MQTT(mqtt_path, voice_payload)
                 #Todo provide a response to remote commands
-                LOG.info("Response Length: " + str(len(self.response_location)))
+                LOG.info("Response Location Length: " + str(len(self.response_location)))
                 self.response_location = ''
 #                if not self.response_location.strip():
 #                    self.response_location = ''
