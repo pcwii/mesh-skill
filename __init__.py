@@ -4,6 +4,7 @@ from mycroft.skills.core import MycroftSkill, intent_handler, intent_file_handle
 from mycroft.util.log import getLogger
 from mycroft.util.log import LOG
 from mycroft.audio import wait_while_speaking
+from mycroft.skills.context import adds_context, removes_context
 
 # import sys
 from websocket import create_connection
@@ -193,8 +194,9 @@ class MeshSkill(MycroftSkill):
     # First step in the dialog is to receive the initial request to "send a message/command"
     @intent_handler(IntentBuilder("SendMessageIntent").require("SendKeyword").require("RemoteKeyword").
                     one_of("MessageKeyword", "CommandKeyword").build())
+    @adds_context('GetLocationContextKeyword')
     def handle_send_message_intent(self, message):
-        self.set_context('GetLocationContextKeyword', 'GetLocationContext')
+        # self.set_context('GetLocationContextKeyword', 'GetLocationContext')
         if "MessageKeyword" in message.data:
             self.set_context('MessageKeyword', 'message')
             msg_type = "message"
@@ -206,9 +208,11 @@ class MeshSkill(MycroftSkill):
     # Second step in the dialog is to request the location to send the message/command
     @intent_handler(IntentBuilder("GetLocationIntent").require("GetLocationContextKeyword").
                     one_of("MessageKeyword", "CommandKeyword").build())
+    @removes_context('GetLocationContextKeyword')
+    @adds_context('GetDetailsContextKeyword')
     def handle_get_location_intent(self, message):
-        self.set_context('GetLocationContextKeyword', '')
-        self.set_context('GetDetailsContextKeyword', 'GetDetailsKeyword')
+        #self.set_context('GetLocationContextKeyword', '')
+        #self.set_context('GetDetailsContextKeyword', 'GetDetailsKeyword')
         self.targetDevice = str(message.utterance_remainder())
         if "MessageKeyword" in message.data:
             self.set_context('MessageKeyword', 'message')
@@ -221,21 +225,24 @@ class MeshSkill(MycroftSkill):
     # Third step is to combine everything
     @intent_handler(IntentBuilder("GetDetailsIntent").require("GetDetailsContextKeyword").
                     one_of("MessageKeyword", "CommandKeyword").build())
+    @removes_context('GetDetailsContextKeyword')
     def handle_get_details_intent(self, message):
         message_json = {}  # create json object
-        self.set_context('GetLocationContextKeyword', '')
-        self.set_context('GetDetailsContextKeyword', '')
+        # self.set_context('GetLocationContextKeyword', '')
+        # self.set_context('GetDetailsContextKeyword', '')
         message_json['source'] = self.location_id
         if "MessageKeyword" in message.data:
+            self.set_context('MessageKeyword', '')
             msg_type = "message"
-            LOG.info("Preparing to Send a message to " + self.targetDevice)
             message_json['message'] = str(message.utterance_remainder())
         if "CommandKeyword" in message.data:
+            self.set_context('CommandKeyword', '')
             msg_type = "command"
-            LOG.info("Preparing to Send a command to " + self.targetDevice)
             message_json['command'] = str(message.utterance_remainder())
-        self.speak_dialog('sending.message', data={"message": msg_type, "location": self.targetDevice}, expect_response=False)
-        LOG.info("Sending the following : " + str(message_json))
+        LOG.info("Preparing to Send a message to " + self.targetDevice)
+        self.speak_dialog('sending.message', data={"message": msg_type, "location": self.targetDevice},
+                          expect_response=False)
+        #LOG.info("Sending the following : " + json.dumps(message_json))
         mqtt_path = self.base_topic + "/RemoteDevices/" + self.targetDevice
         self.send_MQTT(mqtt_path, message_json)
 
