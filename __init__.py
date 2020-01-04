@@ -193,66 +193,20 @@ class MeshSkill(MycroftSkill):
         ws.close()
 
     # First step in the dialog is to receive the initial request to "send a message/command"
-    @intent_handler(IntentBuilder("SendMessageIntent").require("SendKeyword").require("RemoteKeyword").
-                    one_of("MessageKeyword", "CommandKeyword").build())
+    @intent_handler(IntentBuilder("SendMessageIntent").require("SendKeyword").require("MessageTypeKeyword")
+                    .optionally("RemoteKeyword").build())
     def handle_send_message_intent(self, message):
-        #self.set_context('GetLocationContextKeyword', 'GetLocationContext')
-        #self.speak_dialog('request.location', data={"result": msg_type}, expect_response=True)
         message_json = {}  # create json object
-        if "MessageKeyword" in message.data:
-            self.set_context('MessageKeyword', 'message')
-            msg_type = "message"
-        if "CommandKeyword" in message.data:
-            self.set_context('CommandKeyword', 'command')
-            msg_type = "command"
+        message_json['source'] = self.location_id
+        message.data.get("GetDetailsContextKeyword")
+        msg_type = message.data.get("GetDetailsContextKeyword")
         self.targetDevice = self.get_response('request.location', data={"result": msg_type})
         message_json[msg_type] = self.get_response('request.details', data={"result": msg_type})
         LOG.info("Preparing to Send a message to " + self.targetDevice)
         self.speak_dialog('sending.message', data={"message": msg_type, "location": self.targetDevice},
                           expect_response=False)
         mqtt_path = self.base_topic + "/RemoteDevices/" + self.targetDevice
-        message_json['source'] = self.location_id
         self.send_MQTT(mqtt_path, message_json)
-
-
-    # # Second step in the dialog is to request the location to send the message/command
-    # @intent_handler(IntentBuilder("GetLocationIntent").require("GetLocationContextKeyword").
-    #                 one_of("MessageKeyword", "CommandKeyword").build())
-    # def handle_get_location_intent(self, message):
-    #     self.set_context('GetLocationContextKeyword', "")
-    #     self.set_context('GetDetailsContextKeyword', 'GetDetailsContext')
-    #     self.targetDevice = str(message.utterance_remainder())
-    #     if "MessageKeyword" in message.data:
-    #         self.set_context('MessageKeyword', 'message')
-    #         msg_type = "message"
-    #     if "CommandKeyword" in message.data:
-    #         self.set_context('CommandKeyword', 'command')
-    #         msg_type = "command"
-    #     self.speak_dialog('request.details', data={"result": msg_type}, expect_response=True)
-    #
-    # # Third step is to combine everything
-    # @intent_handler(IntentBuilder("GetDetailsIntent").require("GetDetailsContextKeyword").
-    #                 one_of("MessageKeyword", "CommandKeyword").build())
-    # def handle_get_details_intent(self, message):
-    #     LOG.info("Details Keyword: " + message.data.get("GetDetailsContextKeyword"))
-    #     if len(message.data.get("GetDetailsContextKeyword")) > 0:
-    #         message_json = {}  # create json object
-    #         self.set_context('GetLocationContextKeyword', "")
-    #         self.set_context('GetDetailsContextKeyword', "")
-    #         message_json['source'] = self.location_id
-    #         if "MessageKeyword" in message.data:
-    #             self.set_context('MessageKeyword', '')
-    #             msg_type = "message"
-    #             message_json['message'] = str(message.utterance_remainder())
-    #         if "CommandKeyword" in message.data:
-    #             self.set_context('CommandKeyword', '')
-    #             msg_type = "command"
-    #             message_json['command'] = str(message.utterance_remainder())
-    #         LOG.info("Preparing to Send a message to " + self.targetDevice)
-    #         self.speak_dialog('sending.message', data={"message": msg_type, "location": self.targetDevice},
-    #                           expect_response=False)
-    #         mqtt_path = self.base_topic + "/RemoteDevices/" + self.targetDevice
-    #         self.send_MQTT(mqtt_path, message_json)
 
     def stop(self):
         pass
