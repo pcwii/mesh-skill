@@ -150,21 +150,19 @@ class MeshSkill(MycroftSkill):
         voice_payload = message.data.get('utterance')
         if self.notifier_bool:
             try:
-                # LOG.info(voice_payload)
                 self.send_MQTT(mqtt_path, voice_payload)
                 #Todo provide a response to remote commands
                 LOG.info("Response Location Length: " + str(len(self.response_location)))
-                self.response_location = ''
-#                if not self.response_location.strip():
-#                    self.response_location = ''
-#                else:
-#                    reply_payload = json.dumps({
-#                        "source": self.location_id,
-#                        "message": voice_payload
-#                    })
-#                    reply_path = self.base_topic + "/RemoteDevices/" + self.response_location
-#                    self.response_location = ''
-#                    self.send_MQTT(reply_path, reply_payload)
+                if len(self.response_location.strip) == 0:
+                    self.response_location = ''
+                else:
+                    reply_payload = json.dumps({
+                        "source": self.location_id,
+                        "message": voice_payload
+                    })
+                    reply_path = self.base_topic + "/RemoteDevices/" + self.response_location
+                    self.response_location = ''
+                    self.send_MQTT(reply_path, reply_payload)
             except Exception as e:
                 LOG.error(e)
                 self.on_websettings_changed()
@@ -179,7 +177,7 @@ class MeshSkill(MycroftSkill):
             LOG.info("MQTT has been disabled in the websettings at https://home.mycroft.ai")
 
     def send_message(self, message):  # Sends the remote received commands to the messagebus
-        LOG.info("Mesh-skill is sending a command to the message bus: " + message)
+        LOG.info("Sending a command to the message bus: " + message)
         payload = json.dumps({
             "type": "recognizer_loop:utterance",
             "context": "",
