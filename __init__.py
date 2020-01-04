@@ -227,11 +227,14 @@ class MeshSkill(MycroftSkill):
         self.set_context('GetDetailsContextKeyword', '')
         message_json['source'] = self.location_id
         if "MessageKeyword" in message.data:
+            msg_type = "message"
             LOG.info("Preparing to Send a message to " + self.targetDevice)
             message_json['message'] = str(message.utterance_remainder())
         if "CommandKeyword" in message.data:
+            msg_type = "command"
             LOG.info("Preparing to Send a command to " + self.targetDevice)
             message_json['command'] = str(message.utterance_remainder())
+        self.speak_dialog('sending.message', data={"message": msg_type, "location": self.targetDevice}, expect_response=False)
         LOG.info("Sending the following : " + str(message_json))
         mqtt_path = self.base_topic + "/RemoteDevices/" + self.targetDevice
         self.send_MQTT(mqtt_path, message_json)
