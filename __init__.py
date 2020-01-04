@@ -209,7 +209,7 @@ class MeshSkill(MycroftSkill):
     @intent_handler(IntentBuilder("GetLocationIntent").require("GetLocationContextKeyword").
                     one_of("MessageKeyword", "CommandKeyword").build())
     def handle_get_location_intent(self, message):
-        self.set_context('GetLocationContextKeyword', '')
+        self.set_context('GetLocationContextKeyword', "")
         self.set_context('GetDetailsContextKeyword', 'GetDetailsContext')
         self.targetDevice = str(message.utterance_remainder())
         if "MessageKeyword" in message.data:
@@ -227,8 +227,8 @@ class MeshSkill(MycroftSkill):
         LOG.info("Details Keyword: " + message.data.get("GetDetailsContextKeyword"))
         if len(message.data.get("GetDetailsContextKeyword")) > 0:
             message_json = {}  # create json object
-            self.set_context('GetLocationContextKeyword', None)
-            self.set_context('GetDetailsContextKeyword', None)
+            self.set_context('GetLocationContextKeyword', "")
+            self.set_context('GetDetailsContextKeyword', "")
             message_json['source'] = self.location_id
             if "MessageKeyword" in message.data:
                 self.set_context('MessageKeyword', '')
