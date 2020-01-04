@@ -198,8 +198,7 @@ class MeshSkill(MycroftSkill):
     def handle_send_message_intent(self, message):
         message_json = {}  # create json object
         message_json['source'] = self.location_id
-        message.data.get("GetDetailsContextKeyword")
-        msg_type = message.data.get("GetDetailsContextKeyword")
+        msg_type = message.data.get("MessageTypeKeyword")
         self.targetDevice = self.get_response('request.location', data={"result": msg_type})
         message_json[msg_type] = self.get_response('request.details', data={"result": msg_type})
         LOG.info("Preparing to Send a message to " + self.targetDevice)
