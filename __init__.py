@@ -213,7 +213,7 @@ class MeshSkill(MycroftSkill):
     # @adds_context('GetDetailsContextKeyword')
     def handle_get_location_intent(self, message):
         self.set_context('GetLocationContextKeyword', '')
-        self.set_context('GetDetailsContextKeyword', 'GetDetailsKeyword')
+        self.set_context('GetDetailsContextKeyword', 'GetDetailsContext')
         self.targetDevice = str(message.utterance_remainder())
         if "MessageKeyword" in message.data:
             self.set_context('MessageKeyword', 'message')
@@ -228,6 +228,7 @@ class MeshSkill(MycroftSkill):
                     one_of("MessageKeyword", "CommandKeyword").build())
     # @removes_context('GetDetailsContextKeyword')
     def handle_get_details_intent(self, message):
+        LOG.info("Details Keyword: " +message.data.get("GetDetailsContextKeyword"))
         message_json = {}  # create json object
         self.set_context('GetLocationContextKeyword', '')
         self.set_context('GetDetailsContextKeyword', '')
