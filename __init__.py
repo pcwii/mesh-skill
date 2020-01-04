@@ -195,7 +195,6 @@ class MeshSkill(MycroftSkill):
     # First step in the dialog is to receive the initial request to "send a message/command"
     @intent_handler(IntentBuilder("SendMessageIntent").require("SendKeyword").require("RemoteKeyword").
                     one_of("MessageKeyword", "CommandKeyword").build())
-    # @adds_context('GetLocationContextKeyword')
     def handle_send_message_intent(self, message):
         self.set_context('GetLocationContextKeyword', 'GetLocationContext')
         if "MessageKeyword" in message.data:
@@ -209,8 +208,6 @@ class MeshSkill(MycroftSkill):
     # Second step in the dialog is to request the location to send the message/command
     @intent_handler(IntentBuilder("GetLocationIntent").require("GetLocationContextKeyword").
                     one_of("MessageKeyword", "CommandKeyword").build())
-    #@removes_context('GetLocationContextKeyword')
-    # @adds_context('GetDetailsContextKeyword')
     def handle_get_location_intent(self, message):
         self.set_context('GetLocationContextKeyword', '')
         self.set_context('GetDetailsContextKeyword', 'GetDetailsContext')
@@ -226,12 +223,11 @@ class MeshSkill(MycroftSkill):
     # Third step is to combine everything
     @intent_handler(IntentBuilder("GetDetailsIntent").require("GetDetailsContextKeyword").
                     one_of("MessageKeyword", "CommandKeyword").build())
-    # @removes_context('GetDetailsContextKeyword')
     def handle_get_details_intent(self, message):
-        LOG.info("Details Keyword: " +message.data.get("GetDetailsContextKeyword"))
+        LOG.info("Details Keyword: " + message.data.get("GetDetailsContextKeyword"))
         message_json = {}  # create json object
-        self.set_context('GetLocationContextKeyword', '')
-        self.set_context('GetDetailsContextKeyword', '')
+        self.set_context('GetLocationContextKeyword', None)
+        self.set_context('GetDetailsContextKeyword', None)
         message_json['source'] = self.location_id
         if "MessageKeyword" in message.data:
             self.set_context('MessageKeyword', '')
