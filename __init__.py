@@ -211,6 +211,7 @@ class MeshSkill(MycroftSkill):
         self.speak_dialog('sending.message', data={"message": msg_type, "location": self.targetDevice},
                           expect_response=False)
         mqtt_path = self.base_topic + "/RemoteDevices/" + self.targetDevice
+        message_json['source'] = self.location_id
         self.send_MQTT(mqtt_path, message_json)
 
 
