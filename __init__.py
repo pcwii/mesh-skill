@@ -53,6 +53,8 @@ class MeshSkill(MycroftSkill):
         self.MQTT_Enabled = ''
         self.broker_address = ''
         self.broker_port = ''
+        self.broker_uname = ''
+        self.broker_pass = ''
         self.location_id = ''
         self.response_location = ''
 
@@ -62,6 +64,10 @@ class MeshSkill(MycroftSkill):
         qos = 0
         mqttc.subscribe(mqtt_path, qos)
         LOG.info('Mesh-Skill Subscribing to: ' + mqtt_path)
+
+    def on_disconnect(self, mqttc, obj, flags, rc):
+        self._is_setup = False
+        LOG.info("MQTT has Dis-Connected")
 
     def on_message(self, mqttc, obj, msg):  # called when a new MQTT message is received
         # Sample Payload {"source":"basement", "message":"is dinner ready yet"}
@@ -99,22 +105,40 @@ class MeshSkill(MycroftSkill):
         self.add_event('speak', self.handle_speak)  # should be "utterance"
         mqttc.on_connect = self.on_connect
         mqttc.on_message = self.on_message
-        self.mqtt_init()
+        mqttc.on_disconnect = self.on_disconnect
+        if self._is_setup:
+            self.mqtt_init()
 
     def on_websettings_changed(self):  # called when updating mycroft home page
+        self._is_setup = False
         self.MQTT_Enabled = self.settings.get("MQTT_Enabled", False)  # used to enable / disable mqtt
         self.broker_address = self.settings.get("broker_address", "127.0.0.1")
         self.base_topic = self.settings.get("base_topic", "Mycroft")
         self.broker_port = self.settings.get("broker_port", 1883)
+        self.broker_uname = self.settings.get("broker_uname", "")
+        self.broker_pass = self.settings.get("broker_pass", "")
         self.location_id = self.settings.get("location_id", "basement")  # This is the device_id of this device
-        self._is_setup = True
+        try:
+            mqttc
+            LOG.info('Client exist')
+            mqttc.loop_stop()
+            mqttc.disconnect()
+            LOG.info('Stopped old client loop')
+        except NameError:
+            mqttc = mqtt.Client()
+            LOG.info('Client re-created')
         LOG.info("Websettings Changed! " + self.broker_address + ", " + str(self.broker_port))
+        self.mqtt_init()
+        self._is_setup = True
 
     def mqtt_init(self):  # initializes the MQTT configuration and subscribes to its own topic
         if self.MQTT_Enabled:
             LOG.info('MQTT Is Enabled')
             try:
                 LOG.info("Connecting to host: " + self.broker_address + ", on port: " + str(self.broker_port))
+                if self.broker_uname and self.broker_pass:
+                    LOG.info("Using MQTT Authentication")
+                    mqttc.username_pw_set(username=self.broker_uname, password=self.broker_pass)
                 mqttc.connect_async(self.broker_address, self.broker_port, 60)
                 mqttc.loop_start()
                 LOG.info("MQTT Loop Started Successfully")
@@ -168,7 +192,7 @@ class MeshSkill(MycroftSkill):
                 self.on_websettings_changed()
 
     def send_MQTT(self, my_topic, my_message):  # Sends MQTT Message
-        if self.MQTT_Enabled:
+        if self.MQTT_Enabled and self._is_setup:
             LOG.info("MQTT: " + my_topic + ", " + json.dumps(my_message))
             # myID = self.id_generator()
             LOG.info("address: " + self.broker_address + ", Port: " + str(self.broker_port))
