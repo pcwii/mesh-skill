@@ -30,6 +30,18 @@
                         "value": 1884
                     },
                     {
+                        "name": "broker_uname",
+                        "type": "text",
+                        "label": "Optional Broker Username",
+                        "value": ""
+                    },
+                    {
+                        "name": "broker_pass",
+                        "type": "password",
+                        "label": "Optional Broker Password",
+                        "value": ""
+                    },
+                    {
                         "name": "location_id",
                         "type": "text",
                         "label": "Location Id (name) of this device (use lower case!)",
