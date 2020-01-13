@@ -62,7 +62,7 @@ class MeshSkill(MycroftSkill):
     def on_connect(self, mqttc, obj, flags, rc):
         LOG.info("Connection Verified")
         LOG.info("This device location is: " + DeviceApi().get()["description"])
-        mqtt_path = self.base_topic + "/RemoteDevices/" + self.location_id
+        mqtt_path = self.base_topic + "/RemoteDevices/" + str(self.location_id)
         qos = 0
         mqttc.subscribe(mqtt_path, qos)
         LOG.info('Mesh-Skill Subscribing to: ' + mqtt_path)
@@ -73,7 +73,7 @@ class MeshSkill(MycroftSkill):
 
     def on_message(self, mqttc, obj, msg):  # called when a new MQTT message is received
         # Sample Payload {"source":"basement", "message":"is dinner ready yet"}
-        LOG.info('message received for location id: ' + self.location_id)
+        LOG.info('message received for location id: ' + str(self.location_id))
         LOG.info("This device location is: " + DeviceApi().get()["description"])
         try:
             mqtt_message = msg.payload.decode('utf-8')
@@ -186,7 +186,7 @@ class MeshSkill(MycroftSkill):
                     self.response_location = ''
                 else:
                     reply_payload = {
-                        "source": self.location_id,
+                        "source": str(self.location_id),
                         "message": voice_payload
                     }
                     reply_path = self.base_topic + "/RemoteDevices/" + self.response_location
@@ -225,7 +225,7 @@ class MeshSkill(MycroftSkill):
                     .optionally("RemoteKeyword").build())
     def handle_send_message_intent(self, message):
         message_json = {}  # create json object
-        message_json['source'] = self.location_id
+        message_json['source'] = str(self.location_id)
         # LOG.info("This device location is: " + DeviceApi().get()["description"])
         msg_type = message.data.get("MessageTypeKeyword")
         self.targetDevice = self.get_response('request.location', data={"result": msg_type})
