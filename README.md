@@ -99,4 +99,5 @@ mycroft publishes...
     * Not sure this has value if room is unoccupied.  
 - ~~Redirect remote responses to the commanding mycroft unit (20200102)~~
 - Autodiscovery???(20191231)
+- ~~Add Authentication (20200109)~~
 

@@ -5,8 +5,6 @@ from mycroft.util.log import getLogger
 from mycroft.util.log import LOG
 from mycroft.audio import wait_while_speaking
 from mycroft.skills.context import adds_context, removes_context
-from mycroft.api import DeviceApi
-
 
 # import sys
 from websocket import create_connection
@@ -59,7 +57,6 @@ class MeshSkill(MycroftSkill):
         self.response_location = ''
 
     def on_connect(self, mqttc, obj, flags, rc):
-        LOG.info("This device location is: " + DeviceApi().get()["description"])
         LOG.info("Connection Verified")
         mqtt_path = self.base_topic + "/RemoteDevices/" + self.location_id
         qos = 0
@@ -110,7 +107,6 @@ class MeshSkill(MycroftSkill):
         self.base_topic = self.settings.get("base_topic", "Mycroft")
         self.broker_port = self.settings.get("broker_port", 1883)
         self.location_id = self.settings.get("location_id", "basement")  # This is the device_id of this device
-        LOG.info("This device location is: " + DeviceApi().get()["description"])
         self._is_setup = True
         LOG.info("Websettings Changed! " + self.broker_address + ", " + str(self.broker_port))
 
@@ -172,7 +168,6 @@ class MeshSkill(MycroftSkill):
                 self.on_websettings_changed()
 
     def send_MQTT(self, my_topic, my_message):  # Sends MQTT Message
-        LOG.info("This device location is: " + DeviceApi().get()["description"])
         if self.MQTT_Enabled:
             LOG.info("MQTT: " + my_topic + ", " + json.dumps(my_message))
             # myID = self.id_generator()
