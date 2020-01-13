@@ -122,7 +122,7 @@ class MeshSkill(MycroftSkill):
         self.broker_pass = self.settings.get("broker_pass", "")
         self.location_id = self.settings.get("location_id", "basement")  # This is the device_id of this device
         #Todo add self.location_id = DeviceApi().get()["description"] to support multiple devices
-        LOG.info(DeviceApi().get()["description"])
+        LOG.info("This device location is: " + DeviceApi().get()["description"])
         try:
             mqttc
             LOG.info('Client exist')
@@ -147,6 +147,7 @@ class MeshSkill(MycroftSkill):
                 mqttc.connect_async(self.broker_address, self.broker_port, 60)
                 mqttc.loop_start()
                 LOG.info("MQTT Loop Started Successfully")
+                LOG.info("This device location is: " + DeviceApi().get()["description"])
             except Exception as e:
                 LOG.error('Error: {0}'.format(e))
 
@@ -196,6 +197,7 @@ class MeshSkill(MycroftSkill):
                 self.on_websettings_changed()
 
     def send_MQTT(self, my_topic, my_message):  # Sends MQTT Message
+        LOG.info("This device location is: " + DeviceApi().get()["description"])
         if self.MQTT_Enabled and self._is_setup:
             LOG.info("MQTT: " + my_topic + ", " + json.dumps(my_message))
             # myID = self.id_generator()
