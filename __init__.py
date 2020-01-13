@@ -5,6 +5,7 @@ from mycroft.util.log import getLogger
 from mycroft.util.log import LOG
 from mycroft.audio import wait_while_speaking
 from mycroft.skills.context import adds_context, removes_context
+from mycroft.api import DeviceApi
 
 # import sys
 from websocket import create_connection
@@ -55,11 +56,12 @@ class MeshSkill(MycroftSkill):
         self.broker_port = ''
         self.broker_uname = ''
         self.broker_pass = ''
-        self.location_id = ''
+        self.location_id = ''  # ToDo This will be retrieved from The the DeviceApi
         self.response_location = ''
 
     def on_connect(self, mqttc, obj, flags, rc):
         LOG.info("Connection Verified")
+        LOG.info("This device location is: " + DeviceApi().get()["description"])
         mqtt_path = self.base_topic + "/RemoteDevices/" + self.location_id
         qos = 0
         mqttc.subscribe(mqtt_path, qos)
@@ -72,6 +74,7 @@ class MeshSkill(MycroftSkill):
     def on_message(self, mqttc, obj, msg):  # called when a new MQTT message is received
         # Sample Payload {"source":"basement", "message":"is dinner ready yet"}
         LOG.info('message received for location id: ' + self.location_id)
+        LOG.info("This device location is: " + DeviceApi().get()["description"])
         try:
             mqtt_message = msg.payload.decode('utf-8')
             LOG.info(msg.topic + " " + str(msg.qos) + ", " + mqtt_message)
@@ -118,6 +121,8 @@ class MeshSkill(MycroftSkill):
         self.broker_uname = self.settings.get("broker_uname", "")
         self.broker_pass = self.settings.get("broker_pass", "")
         self.location_id = self.settings.get("location_id", "basement")  # This is the device_id of this device
+        #Todo add self.location_id = DeviceApi().get()["description"] to support multiple devices
+        LOG.info("This device location is: " + DeviceApi().get()["description"])
         try:
             mqttc
             LOG.info('Client exist')
@@ -142,6 +147,7 @@ class MeshSkill(MycroftSkill):
                 mqttc.connect_async(self.broker_address, self.broker_port, 60)
                 mqttc.loop_start()
                 LOG.info("MQTT Loop Started Successfully")
+                LOG.info("This device location is: " + DeviceApi().get()["description"])
             except Exception as e:
                 LOG.error('Error: {0}'.format(e))
 
@@ -191,6 +197,7 @@ class MeshSkill(MycroftSkill):
                 self.on_websettings_changed()
 
     def send_MQTT(self, my_topic, my_message):  # Sends MQTT Message
+        LOG.info("This device location is: " + DeviceApi().get()["description"])
         if self.MQTT_Enabled and self._is_setup:
             LOG.info("MQTT: " + my_topic + ", " + json.dumps(my_message))
             # myID = self.id_generator()
@@ -219,6 +226,7 @@ class MeshSkill(MycroftSkill):
     def handle_send_message_intent(self, message):
         message_json = {}  # create json object
         message_json['source'] = self.location_id
+        LOG.info("This device location is: " + DeviceApi().get()["description"])
         msg_type = message.data.get("MessageTypeKeyword")
         self.targetDevice = self.get_response('request.location', data={"result": msg_type})
         message_json[msg_type] = self.get_response('request.details', data={"result": msg_type})
