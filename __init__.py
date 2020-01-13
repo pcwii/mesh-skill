@@ -121,7 +121,8 @@ class MeshSkill(MycroftSkill):
         self.broker_uname = self.settings.get("broker_uname", "")
         self.broker_pass = self.settings.get("broker_pass", "")
         # self.location_id = self.settings.get("location_id", "basement")  # This is the device_id of this device
-        self.location_id = str(DeviceApi().get()["description"]).lower
+        this_location_id = str(DeviceApi().get()["description"])
+        self.location_id = this_location_id.lower()
         LOG.info("This device location is: " + str(self.location_id))
         try:
             mqttc
