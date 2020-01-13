@@ -121,10 +121,8 @@ class MeshSkill(MycroftSkill):
         self.broker_uname = self.settings.get("broker_uname", "")
         self.broker_pass = self.settings.get("broker_pass", "")
         # self.location_id = self.settings.get("location_id", "basement")  # This is the device_id of this device
-        this_id = str(self.settings.get("location_id", "basement"))
-        self.location_id = this_id.lower()
-        #Todo add self.location_id = DeviceApi().get()["description"] to support multiple devices
-        # LOG.info("This device location is: " + DeviceApi().get()["description"])
+        self.location_id = str(DeviceApi().get()["description"]).lower
+        LOG.info("This device location is: " + self.location_id)
         try:
             mqttc
             LOG.info('Client exist')
