@@ -100,4 +100,5 @@ mycroft publishes...
 - ~~Redirect remote responses to the commanding mycroft unit (20200102)~~
 - Autodiscovery???(20191231)
 - ~~Add Authentication (20200109)~~
+- Remove Location ID websetting and retrieve from device configuraiton web page (20200113)
 
