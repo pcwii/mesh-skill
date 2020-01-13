@@ -40,12 +40,6 @@
                         "type": "password",
                         "label": "Optional Broker Password",
                         "value": ""
-                    },
-                    {
-                        "name": "location_id",
-                        "type": "text",
-                        "label": "Location Id (name) of this device (use lower case!)",
-                        "value": "basement"
                     }
                 ]
             }

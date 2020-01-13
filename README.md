@@ -14,11 +14,14 @@ The MQTT Topics for this communication is...
 3. Each Mycroft unit has it's own Device Name (location_id) that can be set in the web interface.
 4. The Mycroft unit will automatically subscribe to all messages sent to it's own Device Name (location_id).
     * ```<base_topic>/RemoteDevices/<location_id>```
+    * The location id is automatically obtained from the Mycroft Device Settings web page
+    * ![location_id](/images/location_id.png)
+    * location id's are automatically converted to lowercase to avoid confusion
+    
 5. When a message is sent from any Mycroft unit, the message will be published to "Mycroft/RemoteDevices/location_id".
 6. The destination location_id is specified in the skill dialog.
 7. The message payload will contain the following Json...
     * ```{"source":"<source_location_id>", "message":"is dinner ready yet"}```
-
 
 ## Examples
 * "Send a remote message"
