@@ -163,7 +163,7 @@ class MeshSkill(MycroftSkill):
 
     def location_regex(self, message_str):
         return_list = []
-        regex_string = r".* (message|command) ((to the|to)|(at the|at)) (?P<location>.*)"
+        regex_string = r".*((to the|to)|(at the|at)) (?P<location>.*)"
         pri_regex = re.search(regex_string, message_str)
         if pri_regex:
             ret_location = pri_regex.group("location")
