@@ -17,7 +17,7 @@ import random
 import json
 import paho.mqtt.client as mqtt
 import paho.mqtt.publish as publish
-# import re
+import re
 
 __author__ = 'PCWii'
 
@@ -161,6 +161,15 @@ class MeshSkill(MycroftSkill):
         LOG.info("MQTT using UUID: " + mac)
         return mac
 
+    def location_regex(self, message):
+        return_list = []
+        regex_string = r".* (message|command) ((to the|to)|(at the|at)) (?P<location>.*)"
+        pri_regex = re.search(regex_string, message)
+        if pri_regex:
+            ret_location = pri_regex.group("location")
+            # print(ret_location)
+            return ret_location
+
     # utterance event used for notifications ***This is what the user requests***
     def handle_utterances(self, message):
         mqtt_path = self.base_topic + "/RemoteDevices/" + self.deviceUUID + "/request"
@@ -227,7 +236,12 @@ class MeshSkill(MycroftSkill):
     def handle_send_message_intent(self, message):
         message_json = {}  # create json object
         message_json['source'] = str(self.location_id)
-        # LOG.info("This device location is: " + DeviceApi().get()["description"])
+        voice_payload = str(message.data.get('utterances')[0])
+        location_request = self.location_regex(voice_payload)
+        if location_request:
+            LOG.info("The user spoke the following location: " + location_request)
+        else:
+            LOG.info("The user did not speak a location")
         msg_type = message.data.get("MessageTypeKeyword")
         self.targetDevice = self.get_response('request.location', data={"result": msg_type})
         message_json[msg_type] = self.get_response('request.details', data={"result": msg_type})
