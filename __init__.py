@@ -161,10 +161,10 @@ class MeshSkill(MycroftSkill):
         LOG.info("MQTT using UUID: " + mac)
         return mac
 
-    def location_regex(self, message):
+    def location_regex(self, message_str):
         return_list = []
         regex_string = r".* (message|command) ((to the|to)|(at the|at)) (?P<location>.*)"
-        pri_regex = re.search(regex_string, message)
+        pri_regex = re.search(regex_string, message_str)
         if pri_regex:
             ret_location = pri_regex.group("location")
             # print(ret_location)
@@ -236,7 +236,7 @@ class MeshSkill(MycroftSkill):
     def handle_send_message_intent(self, message):
         message_json = {}  # create json object
         message_json['source'] = str(self.location_id)
-        voice_payload = str(message.data.get('utterances')[0])
+        voice_payload = str(message.data.get('utterance'))
         location_request = self.location_regex(voice_payload)
         if location_request:
             LOG.info("The user spoke the following location: " + location_request)
