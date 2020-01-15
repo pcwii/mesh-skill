@@ -244,6 +244,11 @@ class MeshSkill(MycroftSkill):
             LOG.info("The user did not speak a location")
         msg_type = message.data.get("MessageTypeKeyword")
         self.targetDevice = self.get_response('request.location', data={"result": msg_type})
+        location_request = self.location_regex(self.targetDevice)
+        if location_request:
+            LOG.info("The user spoke the following location: " + location_request)
+        else:
+            LOG.info("The user did not speak a location")
         message_json[msg_type] = self.get_response('request.details', data={"result": msg_type})
         LOG.info("Preparing to Send a message to " + self.targetDevice)
         self.speak_dialog('sending.message', data={"message": msg_type, "location": self.targetDevice},
