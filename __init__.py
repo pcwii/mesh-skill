@@ -253,7 +253,10 @@ class MeshSkill(MycroftSkill):
             LOG.info("The user did not speak a location")
             # Have Mycroft request the location
             location_payload = self.get_response('request.location', data={"result": msg_type})
-            words_spoken = len(location_payload.split())  # were more than one word(s) spoken
+            if location_payload is None:
+                LOG.info("Didn't receive a location string")
+            else:
+                words_spoken = len(location_payload.split())  # were more than one word(s) spoken
             if words_spoken > 1:
                 location_request = self.location_regex(location_payload)
             else:
