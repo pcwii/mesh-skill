@@ -249,7 +249,7 @@ class MeshSkill(MycroftSkill):
         msg_type = message.data.get("MessageTypeKeyword")
         voice_payload = str(message.data.get('utterance'))
         location_request = self.location_regex(voice_payload)
-        if len(location_request) == 0:  # location was not in the utterance
+        if location_request is None:  # location was not in the utterance
             LOG.info("The user did not speak a location")
             # Have Mycroft request the location
             location_payload = self.get_response('request.location', data={"result": msg_type})
