@@ -14,7 +14,7 @@ The MQTT Topics for this communication is...
 3. Each Mycroft unit has it's own Device Name (location_id) that can be set in the web interface.
 4. The Mycroft unit will automatically subscribe to all messages sent to it's own Device Name (location_id).
     * ```<base_topic>/RemoteDevices/<location_id>```
-    * The location id is automatically obtained from the Mycroft Device Settings web page...
+    * The <location_id> is automatically obtained from the Mycroft Device Settings web page...
     ![location_id](/images/location_id.png)
     * location id's are automatically converted to lowercase to avoid confusion
     
@@ -70,15 +70,38 @@ Sending command, to the basement.
 mycroft publishes...
 "<base_topic>/RemoteDevices/basement/{"source":"kitchen", "command":"set a timer for 5 minutes"}
 ```
+- Example 3 (specify location in original command)
+```
+hey mycroft...
+    send a command to the basement...
+what would you like the command to be?...
+    set a timer for 5 minutes?
+Sending command, to the basement.
+mycroft publishes...
+"<base_topic>/RemoteDevices/basement/{"source":"kitchen", "command":"set a timer for 5 minutes"}
+```
+- Example 4 (polite request)
+```
+hey mycroft...
+    send a command...
+where would you like to send the command?...
+    to the basement...
+what would you like the command to be?...
+    set a timer for 5 minutes?
+Sending command, to the basement.
+mycroft publishes...
+"<base_topic>/RemoteDevices/basement/{"source":"kitchen", "command":"set a timer for 5 minutes"}
+```
 ## Installation Notes
 - ensure you have a working MQTT Broker. [how to install mqtt broker.](https://github.com/pcwii/mesh-skill/blob/master/broker_install.md)
 - SSH and run: msm install https://github.com/pcwii/mesh-skill.git
 - Configure home.mycroft.ai
     * Ensure MQTT is enabled.
-    * Create a custom base topic name <base_topic>. 
+    * Create a custom base topic name <base_topic>. This can be any MQTT formatted topic.
+        * <base_topic> = Mycroft, <base_topic> = Mycroft/Cottage, <base_topic> = abcdef/myhome,   
     * Set IP Address of your broker
     * Set the websocket Port of your broker.
-    * Set the location ID of this mycroft unit <location_id>.
+    * The <location_id> is automatically obtained from the Device websettings "Placement".
     * **This skill must be installed, and configured for each unit in your "mesh"**
     * **MQTT paths are case sensitive**
 
@@ -104,5 +127,5 @@ mycroft publishes...
 - Autodiscovery???(20191231)
 - ~~Add Authentication (20200109)~~
 - ~~Remove Location ID websetting and retrieve from device configuration web page (20200113)~~
-- Add ability to speak location in the initial request
+- ~~Add ability to speak location in the initial request(20200116)~~
 
