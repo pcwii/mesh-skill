@@ -101,7 +101,8 @@ class MeshSkill(MycroftSkill):
     def initialize(self):
         self.load_data_files(dirname(__file__))
         #  Check and then monitor for credential changes
-        self.settings.set_changed_callback(self.on_websettings_changed)
+        #self.settings.set_changed_callback(self.on_websettings_changed)
+        self.settings_change_callback = self.on_websettings_changed
         self.on_websettings_changed()
         self.deviceUUID = self.get_mac_address()
         self.add_event('recognizer_loop:utterance', self.handle_utterances)  # should be "utterances"
@@ -126,6 +127,7 @@ class MeshSkill(MycroftSkill):
         raw_base_topic = self.settings.get("base_topic", "Mycroft")
         self.base_topic = self.clean_base_topic(raw_base_topic)
         self.broker_port = self.settings.get("broker_port", 1883)
+
         self.broker_uname = self.settings.get("broker_uname", "")
         self.broker_pass = self.settings.get("broker_pass", "")
         # self.location_id = self.settings.get("location_id", "basement")  # This is the device_id of this device
