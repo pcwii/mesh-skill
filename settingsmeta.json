@@ -40,6 +40,12 @@
                         "type": "password",
                         "label": "Optional Broker Password",
                         "value": ""
+                    },
+                    {
+                        "name": "MQTT_Retained",
+                        "type": "checkbox",
+                        "label": "Enable / Disable Message Retention?",
+                        "value": "false"
                     }
                 ]
             }

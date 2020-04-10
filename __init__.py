@@ -52,6 +52,7 @@ class MeshSkill(MycroftSkill):
         self.targetDevice = ''  # This is the targed device_id obtained through mycroft dialog
         self.base_topic = ''
         self.MQTT_Enabled = ''
+        self.MQTT_Retained = ''
         self.broker_address = ''
         self.broker_port = ''
         self.broker_uname = ''
@@ -123,6 +124,7 @@ class MeshSkill(MycroftSkill):
     def on_websettings_changed(self):  # called when updating mycroft home page
         self._is_setup = False
         self.MQTT_Enabled = self.settings.get("MQTT_Enabled", False)  # used to enable / disable mqtt
+        self.MQTT_Retained = self.settings.get("MQTT_Retained", False)  # used to enable / disable message retention
         self.broker_address = self.settings.get("broker_address", "127.0.0.1")
         raw_base_topic = self.settings.get("base_topic", "Mycroft")
         self.base_topic = self.clean_base_topic(raw_base_topic)
@@ -222,7 +224,7 @@ class MeshSkill(MycroftSkill):
             LOG.info("MQTT: " + my_topic + ", " + json.dumps(my_message))
             # myID = self.id_generator()
             LOG.info("address: " + self.broker_address + ", Port: " + str(self.broker_port))
-            publish.single(my_topic, json.dumps(my_message), hostname=self.broker_address)
+            publish.single(my_topic, json.dumps(my_message), hostname=self.broker_address, retain=self.MQTT_Retained)
         else:
             LOG.info("MQTT has been disabled in the websettings at https://home.mycroft.ai")
 
