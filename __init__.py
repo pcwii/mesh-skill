@@ -93,7 +93,7 @@ class MeshSkill(MycroftSkill):
                 wait_while_speaking()
                 self.speak_dialog('message', data={"result": new_message["message"]}, expect_response=False)
             elif "wakeup" in new_message:
-                # example: {"source":"kitchen", "wakeup":true}
+                # example to remotely wakeup mycroft: {"source":"kitchen", "wakeup":true}
                 if new_message["wakeup"]:
                     LOG.info('Remote Listen Received From: ' + new_message["source"])
                     self.send_message('mycroft.mic.listen')
