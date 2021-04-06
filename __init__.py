@@ -92,6 +92,11 @@ class MeshSkill(MycroftSkill):
                 self.speak_dialog('location', data={"result": new_message["source"]}, expect_response=False)
                 wait_while_speaking()
                 self.speak_dialog('message', data={"result": new_message["message"]}, expect_response=False)
+            elif "wakeup" in new_message:
+                # example: {"source":"kitchen", "wakeup":true}
+                if new_message["wakeup"]:
+                    LOG.info('Remote Listen Received From: ' + new_message["source"])
+                    self.send_message('mycroft.mic.listen')
             else:
                 LOG.info('Unable to decode the MQTT Message')
         except Exception as e:
