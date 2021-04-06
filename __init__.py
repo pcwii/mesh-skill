@@ -96,6 +96,7 @@ class MeshSkill(MycroftSkill):
                 # example to remotely wakeup mycroft: {"source":"kitchen", "wakeup":true}
                 if new_message["wakeup"]:
                     LOG.info('Remote Listen Received From: ' + new_message["source"])
+                    LOG.info('Sending Wakeup Command to Messaagebus')
                     self.send_message('mycroft.mic.listen')
             else:
                 LOG.info('Unable to decode the MQTT Message')
