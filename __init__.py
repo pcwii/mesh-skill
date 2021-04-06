@@ -143,15 +143,15 @@ class MeshSkill(MycroftSkill):
         this_location_id = str(DeviceApi().get()["description"])
         self.location_id = this_location_id.lower()
         LOG.info("This device location is: " + str(self.location_id))
-        try:
-            mqttc
-            LOG.info('Client exist')
-            mqttc.loop_stop()
-            mqttc.disconnect()
-            LOG.info('Stopped old client loop')
-        except NameError:
-            mqttc = mqtt.Client()
-            LOG.info('Client re-created')
+#        try:
+#            mqttc
+#            LOG.info('Client exist')
+#            mqttc.loop_stop()
+#            mqttc.disconnect()
+#            LOG.info('Stopped old client loop')
+#        except NameError:
+#            mqttc = mqtt.Client()
+#            LOG.info('Client re-created')
         LOG.info("Websettings Changed! " + self.broker_address + ", " + str(self.broker_port))
         self.mqtt_init()
         self._is_setup = True
