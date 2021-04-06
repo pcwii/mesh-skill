@@ -92,6 +92,11 @@ Sending command, to the basement.
 mycroft publishes...
 "<base_topic>/RemoteDevices/basement/{"source":"kitchen", "command":"set a timer for 5 minutes"}
 ```
+- Example 5 (remote wakeup trigger)
+```
+This command will let you wake mycroft up via mqtt 
+"<base_topic>/RemoteDevices/basement/{"source":"kitchen", "wakeup":true}
+```
 ## Installation Notes
 - ensure you have a working MQTT Broker. [how to install mqtt broker.](https://github.com/pcwii/mesh-skill/blob/master/broker_install.md)
 - SSH and run: msm install https://github.com/pcwii/mesh-skill.git
