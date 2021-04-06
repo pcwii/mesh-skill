@@ -26,6 +26,7 @@ __author__ = 'PCWii'
 LOGGER = getLogger(__name__)
 
 # clear any previously connected mqtt clients on first load
+# This did not get executed on first install
 try:
     mqttc
     LOG.info('Client exist')
