@@ -1,9 +1,8 @@
 {
-    "name": "Mycroft.AI mesh communication skill (Mesh-skill)",
+    "name": "Mesh communication skill (Mesh-skill)",
     "skillMetadata": {
         "sections": [
             {
-                "name": "Settings",
                 "fields": [
                     {
                         "name": "MQTT_Enabled",
