@@ -35,7 +35,7 @@ try:
     LOG.info('Stopped old client loop')
 except NameError:
     mqttc = mqtt.Client()
-    LOG.info('Client created')
+    LOG.info('New Client created')
 
 
 # The logic of each skill is contained within its own class, which inherits
