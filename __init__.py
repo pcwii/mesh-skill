@@ -64,16 +64,22 @@ class MeshSkill(MycroftSkill):
         self.broker_pass = ''
         self.location_id = ''
         self.response_location = ''
+        self.connected = False
 
     def on_connect(self, mqttc, obj, flags, rc):
         LOG.info("Connection Verified")
         LOG.info("This device location is: " + DeviceApi().get()["description"])
         mqtt_path = self.base_topic + "/RemoteDevices/" + str(self.location_id)
         qos = 0
-        mqttc.subscribe(mqtt_path, qos)
-        LOG.info('Mesh-Skill Subscribing to: ' + mqtt_path)
+        if self.connected:
+            LOG.info('Already subscribed to: ' + mqtt_path)
+        else:
+            mqttc.subscribe(mqtt_path, qos)
+            LOG.info('Mesh-Skill Subscribing to: ' + mqtt_path)
+        self.connected = True
 
     def on_disconnect(self, mqttc, userdata, rc):
+        self.connected = False
         self._is_setup = False
         LOG.info("MQTT has Dis-Connected")
 
