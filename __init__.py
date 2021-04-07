@@ -73,7 +73,7 @@ class MeshSkill(MycroftSkill):
         mqttc.subscribe(mqtt_path, qos)
         LOG.info('Mesh-Skill Subscribing to: ' + mqtt_path)
 
-    def on_disconnect(self, mqttc, obj, flags, rc):
+    def on_disconnect(self, mqttc, userdata, rc):
         self._is_setup = False
         LOG.info("MQTT has Dis-Connected")
 
