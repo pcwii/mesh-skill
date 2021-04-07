@@ -111,16 +111,15 @@ class MeshSkill(MycroftSkill):
     # creates and registers each intent that the skill uses
     def initialize(self):
         self.load_data_files(dirname(__file__))
+        mqttc.on_connect = self.on_connect
+        mqttc.on_message = self.on_message
+        mqttc.on_disconnect = self.on_disconnect
         #  Check and then monitor for credential changes
-        #self.settings.set_changed_callback(self.on_websettings_changed)
         self.settings_change_callback = self.on_websettings_changed
         self.on_websettings_changed()
         self.deviceUUID = self.get_mac_address()
         self.add_event('recognizer_loop:utterance', self.handle_utterances)  # should be "utterances"
         self.add_event('speak', self.handle_speak)  # should be "utterance"
-#        mqttc.on_connect = self.on_connect
-#        mqttc.on_message = self.on_message
-#        mqttc.on_disconnect = self.on_disconnect
         if self._is_setup:
             self.mqtt_init()
 
@@ -139,30 +138,12 @@ class MeshSkill(MycroftSkill):
         raw_base_topic = self.settings.get("base_topic", "Mycroft")
         self.base_topic = self.clean_base_topic(raw_base_topic)
         self.broker_port = self.settings.get("broker_port", 1883)
-
         self.broker_uname = self.settings.get("broker_uname", "")
         self.broker_pass = self.settings.get("broker_pass", "")
-        # self.location_id = self.settings.get("location_id", "basement")  # This is the device_id of this device
         this_location_id = str(DeviceApi().get()["description"])
         self.location_id = this_location_id.lower()
         LOG.info("This device location is: " + str(self.location_id))
         LOG.info("Websettings Changed! " + self.broker_address + ", " + str(self.broker_port))
-        try:
-            mqttc
-            LOG.info('Client exist')
-            mqttc.loop_stop()
-            mqttc.disconnect()
-            LOG.info('Stopped old client loop')
-            del mqttc
-            LOG.info('Client destroyed')
-            mqttc = mqtt.Client()
-            LOG.info('Client re-created')
-        except NameError:
-            mqttc = mqtt.Client()
-            LOG.info('Client re-created')
-        mqttc.on_connect = self.on_connect
-        mqttc.on_message = self.on_message
-        mqttc.on_disconnect = self.on_disconnect
         self.mqtt_init()
         self._is_setup = True
 
@@ -177,7 +158,6 @@ class MeshSkill(MycroftSkill):
                 mqttc.connect_async(self.broker_address, self.broker_port, 60)
                 mqttc.loop_start()
                 LOG.info("MQTT Loop Started Successfully")
-                # LOG.info("This device location is: " + DeviceApi().get()["description"])
             except Exception as e:
                 LOG.error('Error: {0}'.format(e))
 
