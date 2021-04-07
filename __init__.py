@@ -147,6 +147,7 @@ class MeshSkill(MycroftSkill):
         self._is_setup = True
 
     def mqtt_init(self):  # initializes the MQTT configuration and subscribes to its own topic
+        # disabling any existing loops
         mqttc.loop_stop()
         mqttc.disconnect()
         if self.MQTT_Enabled:
