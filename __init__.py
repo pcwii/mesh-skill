@@ -120,8 +120,7 @@ class MeshSkill(MycroftSkill):
         self.deviceUUID = self.get_mac_address()
         self.add_event('recognizer_loop:utterance', self.handle_utterances)  # should be "utterances"
         self.add_event('speak', self.handle_speak)  # should be "utterance"
-        if self._is_setup:
-            self.mqtt_init()
+        self.mqtt_init()
 
     def clean_base_topic(self, basetopic):
         if basetopic[-1] == "/":
