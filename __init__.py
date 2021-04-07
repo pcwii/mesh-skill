@@ -33,9 +33,13 @@ try:
     mqttc.loop_stop()
     mqttc.disconnect()
     LOG.info('Stopped old client loop')
+    del mqttc
+    LOG.info('Client destroyed')
+    mqttc = mqtt.Client()
+    LOG.info('Client re-created')
 except NameError:
     mqttc = mqtt.Client()
-    LOG.info('New Client created')
+    LOG.info('Client re-created')
 
 
 # The logic of each skill is contained within its own class, which inherits
@@ -97,8 +101,7 @@ class MeshSkill(MycroftSkill):
                 # example to remotely wakeup mycroft: {"source":"kitchen", "wakeup":true}
                 if new_message["wakeup"]:
                     LOG.info('Remote Listen Received From: ' + new_message["source"])
-                    #LOG.info('Sending Wakeup Command to Messaagebus')
-                    self.send_message('mycroft.mic.listen')
+                    self.send_wakeup()
             else:
                 LOG.info('Unable to decode the MQTT Message')
         except Exception as e:
@@ -115,9 +118,9 @@ class MeshSkill(MycroftSkill):
         self.deviceUUID = self.get_mac_address()
         self.add_event('recognizer_loop:utterance', self.handle_utterances)  # should be "utterances"
         self.add_event('speak', self.handle_speak)  # should be "utterance"
-        mqttc.on_connect = self.on_connect
-        mqttc.on_message = self.on_message
-        mqttc.on_disconnect = self.on_disconnect
+#        mqttc.on_connect = self.on_connect
+#        mqttc.on_message = self.on_message
+#        mqttc.on_disconnect = self.on_disconnect
         if self._is_setup:
             self.mqtt_init()
 
@@ -143,16 +146,20 @@ class MeshSkill(MycroftSkill):
         this_location_id = str(DeviceApi().get()["description"])
         self.location_id = this_location_id.lower()
         LOG.info("This device location is: " + str(self.location_id))
+        LOG.info("Websettings Changed! " + self.broker_address + ", " + str(self.broker_port))
         try:
             mqttc
             LOG.info('Client exist')
             mqttc.loop_stop()
             mqttc.disconnect()
             LOG.info('Stopped old client loop')
+            del mqttc
+            LOG.info('Client destroyed')
+            mqttc = mqtt.Client()
+            LOG.info('Client re-created')
         except NameError:
             mqttc = mqtt.Client()
             LOG.info('Client re-created')
-        LOG.info("Websettings Changed! " + self.broker_address + ", " + str(self.broker_port))
         mqttc.on_connect = self.on_connect
         mqttc.on_message = self.on_message
         mqttc.on_disconnect = self.on_disconnect
@@ -246,6 +253,16 @@ class MeshSkill(MycroftSkill):
             "data": {
                 "utterances": [message]
             }
+        })
+        uri = 'ws://localhost:8181/core'
+        ws = create_connection(uri)
+        ws.send(payload)
+        ws.close()
+
+    def send_wakeup(self):  # Sends the remote received commands to the messagebus
+        LOG.info("Sending a wakeup command to the message bus")
+        payload = json.dumps({
+            "type": "mycroft.mic.listen"
         })
         uri = 'ws://localhost:8181/core'
         ws = create_connection(uri)
