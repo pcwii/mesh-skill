@@ -79,7 +79,7 @@ class MeshSkill(MycroftSkill):
 
     def on_message(self, mqttc, obj, msg):  # called when a new MQTT message is received
         # Sample Payload {"source":"basement", "message":"is dinner ready yet"}
-        LOG.info('message received for location id: ' + str(self.location_id))
+        LOG.info('Message received for location id: ' + str(self.location_id))
         LOG.info("This device location is: " + DeviceApi().get()["description"])
         try:
             mqtt_message = msg.payload.decode('utf-8')
@@ -142,8 +142,8 @@ class MeshSkill(MycroftSkill):
         self.broker_pass = self.settings.get("broker_pass", "")
         this_location_id = str(DeviceApi().get()["description"])
         self.location_id = this_location_id.lower()
-        LOG.info("This device location is: " + str(self.location_id))
         LOG.info("Websettings Changed! " + self.broker_address + ", " + str(self.broker_port))
+        LOG.info("This device location is: " + str(self.location_id))
         self.mqtt_init()
         self._is_setup = True
 
