@@ -158,7 +158,6 @@ class MeshSkill(MycroftSkill):
                 mqttc.connect_async(self.broker_address, self.broker_port, 60)
                 mqttc.loop_start()
                 LOG.info("MQTT Loop Started Successfully")
-                # LOG.info("This device location is: " + DeviceApi().get()["description"])
             except Exception as e:
                 LOG.error('Error: {0}'.format(e))
 
